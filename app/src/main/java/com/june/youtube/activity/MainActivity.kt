@@ -11,6 +11,9 @@ import com.june.youtube.databinding.ActivityMainBinding
 import com.june.youtube.dto.VideoDto
 import com.june.youtube.fragment.PlayerFragment
 import com.june.youtube.service.VideoService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -40,30 +43,30 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun videoList() {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        CoroutineScope(Dispatchers.IO).launch {
+            val retrofit = Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
 
-        retrofit.create(VideoService::class.java).also { videoService ->
-            videoService.listVideos()
-                .enqueue(object: Callback<VideoDto>{
-                    override fun onResponse(call: Call<VideoDto>, response: Response<VideoDto>) {
-                        if (response.isSuccessful.not()) {
-                            Toast.makeText(this@MainActivity, "MainActivity onResponse: FAIL", Toast.LENGTH_SHORT).show()
-                            return
+            retrofit.create(VideoService::class.java).also { videoService ->
+                videoService.listVideos()
+                    .enqueue(object: Callback<VideoDto>{
+                        override fun onResponse(call: Call<VideoDto>, response: Response<VideoDto>) {
+                            if (response.isSuccessful.not()) {
+                                Toast.makeText(this@MainActivity, "MainActivity onResponse: FAIL", Toast.LENGTH_SHORT).show()
+                                return
+                            }
+                            response.body()?.let { videoDto ->
+                                videoAdapter.submitList(videoDto.videos)
+                            }
                         }
-                        response.body()?.let { videoDto ->
-                            videoAdapter.submitList(videoDto.videos)
+                        override fun onFailure(call: Call<VideoDto>, t: Throwable) {
+                            //exception handling
+                            Toast.makeText(this@MainActivity, "Fail to load videos", Toast.LENGTH_SHORT).show()
                         }
-                    }
-                    override fun onFailure(call: Call<VideoDto>, t: Throwable) {
-                        //exception handling
-                        Toast.makeText(this@MainActivity, "Fail to load videos", Toast.LENGTH_SHORT).show()
-                    }
-                })
+                    })
+            }
         }
     }
-
-
 }

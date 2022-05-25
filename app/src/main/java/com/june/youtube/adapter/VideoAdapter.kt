@@ -12,6 +12,9 @@ import com.bumptech.glide.Glide
 import com.june.youtube.R
 import com.june.youtube.databinding.ItemVideoBinding
 import com.june.youtube.model.VideoModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class VideoAdapter: ListAdapter<VideoModel, VideoAdapter.ViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,9 +31,11 @@ class VideoAdapter: ListAdapter<VideoModel, VideoAdapter.ViewHolder>(diffUtil) {
             binding.titleTextView.text = item.title
             binding.subTitleTextView.text = item.subtitle
 
-            Glide.with(binding.thumbnailImageView.context)
-                .load(item.thumb)
-                .into(binding.thumbnailImageView)
+            CoroutineScope(Dispatchers.Main).launch {
+                Glide.with(binding.thumbnailImageView.context)
+                    .load(item.thumb)
+                    .into(binding.thumbnailImageView)
+            }
         }
     }
 
