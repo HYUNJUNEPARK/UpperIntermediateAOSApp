@@ -1,4 +1,4 @@
-package com.june.youtube.model
+package com.june.youtube.retrofit
 
 data class VideoModel (
     val title: String,

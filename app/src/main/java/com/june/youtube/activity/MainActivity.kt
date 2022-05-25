@@ -7,11 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.june.youtube.R
 import com.june.youtube.adapter.VideoAdapter
-import com.june.youtube.constant.Constants.Companion.BASE_URL
+import com.june.youtube.retrofit.Constants.Companion.BASE_URL
 import com.june.youtube.databinding.ActivityMainBinding
-import com.june.youtube.dto.VideoDto
+import com.june.youtube.retrofit.VideoDto
 import com.june.youtube.fragment.PlayerFragment
-import com.june.youtube.service.VideoService
+import com.june.youtube.network.NetworkConnectionCallback
+import com.june.youtube.retrofit.VideoService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,6 +22,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : AppCompatActivity() {
     private val binding by lazy {ActivityMainBinding.inflate(layoutInflater)}
     private lateinit var videoAdapter: VideoAdapter
+    private val networkCheck: NetworkConnectionCallback by lazy { NetworkConnectionCallback(this) }
+
     companion object {
         lateinit var progressBar: ProgressBar
     }
@@ -29,10 +32,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        networkCheck.register()
+
         progressBar = findViewById(R.id.progressBar)
         attachFragment()
         videoList()
         initRecyclerView()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        networkCheck.unregister()
     }
 
     private fun initRecyclerView() {

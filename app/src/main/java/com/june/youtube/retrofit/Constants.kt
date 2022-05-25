@@ -1,4 +1,4 @@
-package com.june.youtube.constant
+package com.june.youtube.retrofit
 
 class Constants {
     companion object {

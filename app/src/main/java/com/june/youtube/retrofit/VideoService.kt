@@ -1,7 +1,6 @@
-package com.june.youtube.service
+package com.june.youtube.retrofit
 
-import com.june.youtube.constant.Constants.Companion.MOCK_API
-import com.june.youtube.dto.VideoDto
+import com.june.youtube.retrofit.Constants.Companion.MOCK_API
 import retrofit2.Call
 import retrofit2.http.GET
 
