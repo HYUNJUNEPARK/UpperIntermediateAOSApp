@@ -1,6 +1,7 @@
 package com.june.youtube.activity
 
 import android.os.Bundle
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,11 +21,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : AppCompatActivity() {
     private val binding by lazy {ActivityMainBinding.inflate(layoutInflater)}
     private lateinit var videoAdapter: VideoAdapter
+    companion object {
+        lateinit var progressBar: ProgressBar
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        progressBar = findViewById(R.id.progressBar)
         attachFragment()
         videoList()
         initRecyclerView()
@@ -48,7 +53,6 @@ class MainActivity : AppCompatActivity() {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-
             retrofit.create(VideoService::class.java).also { videoService ->
                 videoService.listVideos()
                     .enqueue(object: Callback<VideoDto>{

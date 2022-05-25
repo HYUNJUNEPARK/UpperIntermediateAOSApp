@@ -1,15 +1,11 @@
 package com.june.youtube.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.june.youtube.R
 import com.june.youtube.databinding.ItemVideoBinding
 import com.june.youtube.model.VideoModel
 import kotlinx.coroutines.CoroutineScope

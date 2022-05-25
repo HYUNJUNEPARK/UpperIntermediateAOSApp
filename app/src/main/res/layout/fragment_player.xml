@@ -49,7 +49,7 @@
         app:layout_constraintStart_toEndOf="@id/playerView"
         app:layout_constraintEnd_toStartOf="@id/bottomPlayerControlButton"
         app:layout_constraintBottom_toBottomOf="@id/bottomPlayerControlButton"
-        tools:text="제목입니다." />
+        tools:text="Title" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragmentRecyclerView"
