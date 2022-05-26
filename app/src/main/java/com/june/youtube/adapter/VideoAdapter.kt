@@ -1,11 +1,13 @@
 package com.june.youtube.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.june.youtube.activity.MainActivity.Companion.progressBar
 import com.june.youtube.databinding.ItemVideoBinding
 import com.june.youtube.retrofit.VideoModel
 import kotlinx.coroutines.CoroutineScope
@@ -32,6 +34,7 @@ class VideoAdapter: ListAdapter<VideoModel, VideoAdapter.ViewHolder>(diffUtil) {
                     .load(item.thumb)
                     .into(binding.thumbnailImageView)
             }
+            progressBar.visibility = View.INVISIBLE
         }
     }
 
