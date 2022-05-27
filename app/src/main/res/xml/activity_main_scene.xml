@@ -16,6 +16,7 @@
             android:id="@+id/mainBottomNavigationView"
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
+            android:translationY="56dp"
             android:layout_height="wrap_content"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintStart_toStartOf="parent" />
@@ -26,7 +27,6 @@
             android:id="@+id/mainBottomNavigationView"
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
-            android:translationY="56dp"
             android:layout_height="wrap_content"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintStart_toStartOf="parent" />

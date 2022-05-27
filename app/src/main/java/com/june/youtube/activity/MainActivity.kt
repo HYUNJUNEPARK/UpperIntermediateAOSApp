@@ -1,29 +1,22 @@
 package com.june.youtube.activity
 
 import android.os.Bundle
-import android.util.Log
+import android.view.View
+import android.widget.FrameLayout
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.june.youtube.R
 import com.june.youtube.adapter.VideoAdapter
-import com.june.youtube.retrofit.Constants.Companion.BASE_URL
 import com.june.youtube.databinding.ActivityMainBinding
-import com.june.youtube.retrofit.VideoDto
 import com.june.youtube.fragment.PlayerFragment
 import com.june.youtube.network.NetworkConnectionCallback
 import com.june.youtube.retrofit.MyRetrofit
-import com.june.youtube.retrofit.VideoService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import retrofit2.*
-import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
     companion object {
         lateinit var progressBar: ProgressBar
+        lateinit var fragmentContainer: FrameLayout
     }
     private val binding by lazy {ActivityMainBinding.inflate(layoutInflater)}
     private val networkCheck: NetworkConnectionCallback by lazy { NetworkConnectionCallback(this) }
@@ -36,7 +29,8 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         networkCheck.register()
-        progressBar = findViewById(R.id.progressBar)
+        progressBar = binding.progressBar
+        fragmentContainer = binding.fragmentContainer
 
         attachFragment()
         initRecyclerView()

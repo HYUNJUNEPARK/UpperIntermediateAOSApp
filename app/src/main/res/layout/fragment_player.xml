@@ -13,8 +13,7 @@
         android:layout_height="250dp"
         android:background="#AAAAAA"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/playerView"
@@ -23,16 +22,6 @@
         app:resize_mode="fill"
         app:layout_constraintBottom_toBottomOf="@id/mainContainerLayout"
         app:layout_constraintStart_toStartOf="@id/mainContainerLayout"
-        app:layout_constraintTop_toTopOf="@id/mainContainerLayout" />
-
-    <ImageView
-        android:id="@+id/bottomPlayerControlButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:src="@drawable/ic_baseline_play_arrow_24"
-        app:layout_constraintBottom_toBottomOf="@id/mainContainerLayout"
-        app:layout_constraintEnd_toEndOf="@id/mainContainerLayout"
         app:layout_constraintTop_toTopOf="@id/mainContainerLayout" />
 
     <TextView
@@ -50,6 +39,26 @@
         app:layout_constraintStart_toEndOf="@id/playerView"
         app:layout_constraintTop_toTopOf="@id/bottomPlayerControlButton"
         tools:text="Title" />
+
+    <ImageView
+        android:id="@+id/bottomPlayerControlButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/ic_baseline_play_arrow_24"
+        app:layout_constraintBottom_toBottomOf="@id/mainContainerLayout"
+        app:layout_constraintEnd_toStartOf="@id/closeButton"
+        app:layout_constraintTop_toTopOf="@id/mainContainerLayout" />
+
+    <ImageView
+        android:id="@+id/closeButton"
+        android:src="@drawable/ic_baseline_close_24"
+        app:layout_constraintTop_toTopOf="@id/mainContainerLayout"
+        android:layout_marginEnd="14dp"
+        app:layout_constraintBottom_toBottomOf="@id/mainContainerLayout"
+        app:layout_constraintEnd_toEndOf="@id/mainContainerLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragmentRecyclerView"

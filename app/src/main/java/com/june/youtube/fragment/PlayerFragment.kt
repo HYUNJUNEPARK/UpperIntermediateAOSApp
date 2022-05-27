@@ -2,7 +2,6 @@ package com.june.youtube.fragment
 
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,9 +15,9 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.june.youtube.R
 import com.june.youtube.activity.MainActivity
+import com.june.youtube.activity.MainActivity.Companion.fragmentContainer
 import com.june.youtube.adapter.VideoAdapter
 import com.june.youtube.databinding.FragmentPlayerBinding
-import com.june.youtube.retrofit.Constants.Companion.TAG
 import com.june.youtube.retrofit.MyRetrofit
 import kotlin.math.abs
 
@@ -40,6 +39,8 @@ class PlayerFragment: Fragment(R.layout.fragment_player) {
         motionSyncFragmentMotionLayoutAndMainMotionLayout()
         initRecyclerView()
         MyRetrofit(requireContext(), videoAdapter).videoList()
+
+
         initPlayer()
         initControlButton()
     }
@@ -90,11 +91,13 @@ class PlayerFragment: Fragment(R.layout.fragment_player) {
             player?.prepare() //데이터 가져옴
             player?.play()
         }
-        binding.playerMotionLayout.transitionToEnd()
+        binding.playerMotionLayout.transitionToStart()
         binding.bottomTitleTextView.text = title
     }
 
     private fun initPlayer() {
+
+
         context?.let { context ->
             player = SimpleExoPlayer.Builder(context).build()
         }
@@ -106,12 +109,10 @@ class PlayerFragment: Fragment(R.layout.fragment_player) {
                 super.onIsPlayingChanged(isPlaying)
 
                 if (isPlaying) {
-                    binding.bottomPlayerControlButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
-                    Log.d(TAG, "onIsPlayingChanged: playing")
+                    binding.bottomPlayerControlButton.setImageResource(R.drawable.ic_baseline_pause_24)
                 }
                 else {
-                    binding.bottomPlayerControlButton.setImageResource(R.drawable.ic_baseline_pause_24)
-                    Log.d(TAG, "onIsPlayingChanged: pause")
+                    binding.bottomPlayerControlButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
                 }
             }
         })
@@ -119,6 +120,9 @@ class PlayerFragment: Fragment(R.layout.fragment_player) {
 
     private fun initControlButton() {
         binding.bottomPlayerControlButton.setOnClickListener {
+
+
+
             val player = this.player ?: return@setOnClickListener
 
             if (player.isPlaying) {
@@ -128,6 +132,8 @@ class PlayerFragment: Fragment(R.layout.fragment_player) {
                 player.play()
             }
         }
+        binding.closeButton.setOnClickListener {
+            fragmentContainer.visibility = View.INVISIBLE
+        }
     }
-
 }

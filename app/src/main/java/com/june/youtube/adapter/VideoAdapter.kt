@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.june.youtube.activity.MainActivity.Companion.fragmentContainer
 import com.june.youtube.activity.MainActivity.Companion.progressBar
 import com.june.youtube.databinding.ItemVideoBinding
 import com.june.youtube.retrofit.VideoModel
@@ -37,6 +38,7 @@ class VideoAdapter(val itemClickedListener: (/*itemSource*/String, /*itemTitle*/
             progressBar.visibility = View.INVISIBLE
 
             binding.root.setOnClickListener {
+                fragmentContainer.visibility = View.VISIBLE
                 itemClickedListener(item.sources, item.title)
             }
         }
