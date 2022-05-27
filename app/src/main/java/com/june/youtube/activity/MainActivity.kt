@@ -13,6 +13,7 @@ import com.june.youtube.databinding.ActivityMainBinding
 import com.june.youtube.retrofit.VideoDto
 import com.june.youtube.fragment.PlayerFragment
 import com.june.youtube.network.NetworkConnectionCallback
+import com.june.youtube.retrofit.MyRetrofit
 import com.june.youtube.retrofit.VideoService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,26 +22,25 @@ import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
-
     companion object {
         lateinit var progressBar: ProgressBar
     }
     private val binding by lazy {ActivityMainBinding.inflate(layoutInflater)}
-    private lateinit var videoAdapter: VideoAdapter
     private val networkCheck: NetworkConnectionCallback by lazy { NetworkConnectionCallback(this) }
+    private lateinit var videoAdapter: VideoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-
         networkCheck.register()
         progressBar = findViewById(R.id.progressBar)
 
         attachFragment()
-        videoList()
         initRecyclerView()
+        MyRetrofit(this, videoAdapter).videoList()
     }
 
     override fun onDestroy() {
@@ -50,7 +50,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView() {
-        videoAdapter = VideoAdapter()
+        videoAdapter = VideoAdapter(itemClickedListener = { uri, title ->
+            supportFragmentManager.fragments.find { fragment ->
+                fragment is PlayerFragment }?.let { fragment ->
+                    (fragment as PlayerFragment).play(uri,title)
+            }
+        })
         binding.mainRecyclerView.adapter = videoAdapter
         binding.mainRecyclerView.layoutManager = LinearLayoutManager(this)
     }
@@ -59,33 +64,5 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, PlayerFragment())
             .commit()
-    }
-
-    private fun videoList() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val retrofit = Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-            retrofit.create(VideoService::class.java).also { videoService ->
-                videoService.listVideos()
-                    .enqueue(object: Callback<VideoDto>{
-                        override fun onResponse(call: Call<VideoDto>, response: Response<VideoDto>) {
-                            if (response.isSuccessful.not()) {
-                                Toast.makeText(this@MainActivity, "MainActivity onResponse: FAIL", Toast.LENGTH_SHORT).show()
-                                return
-                            }
-                            response.body()?.let { videoDto ->
-                                Log.d("testLog", "MainActivity fun videoList videoDto: $videoDto")
-                                videoAdapter.submitList(videoDto.videos)
-                            }
-                        }
-                        override fun onFailure(call: Call<VideoDto>, t: Throwable) {
-                            //exception handling
-                            Toast.makeText(this@MainActivity, "Fail to load videos", Toast.LENGTH_SHORT).show()
-                        }
-                    })
-            }
-        }
     }
 }

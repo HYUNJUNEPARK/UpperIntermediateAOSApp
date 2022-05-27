@@ -11,7 +11,7 @@ ExoPlayer
 -오디오 및 동영상 재상 가능
 -오디오 및 동영상 재생 관련 강력한 기능들 포함
 -유트브 앱에서 사용하는 라이브러리
-
+`implementation 'com.google.android.exoplayer:exoplayer:2.13.3'`
 
 Mock
 -실제 객체를 만들기에는 비용과 시간이 많이 들거나 의존성이 크게 걸쳐져 있어서 테스트 시 제대로 구현하기 어려울 경우 가짜 객체를 만들어서 사용하는 기술
@@ -25,3 +25,6 @@ https://gist.github.com/deepakpk009/99fd994da714996b296f11c3c371d5ee
 의외로 잘 모르는 Fragment 의 Lifecycle
 https://readystory.tistory.com/199
 
+exoplayer
+https://developer.android.com/guide/topics/media/exoplayer?hl=ko
+https://exoplayer.dev/hello-world.html
