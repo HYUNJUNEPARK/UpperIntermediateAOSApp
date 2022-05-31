@@ -1,7 +1,6 @@
 package com.june.youtube.activity
 
 import android.os.Bundle
-import android.view.View
 import android.widget.FrameLayout
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
@@ -18,13 +17,19 @@ class MainActivity : AppCompatActivity() {
         lateinit var progressBar: ProgressBar
         lateinit var fragmentContainer: FrameLayout
     }
-    private val binding by lazy {ActivityMainBinding.inflate(layoutInflater)}
+    private val binding by lazy {
+        ActivityMainBinding.inflate(layoutInflater)
+    }
+
+
     private val networkCheck: NetworkConnectionCallback by lazy { NetworkConnectionCallback(this) }
     private lateinit var videoAdapter: VideoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)

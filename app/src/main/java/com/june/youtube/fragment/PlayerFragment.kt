@@ -120,9 +120,6 @@ class PlayerFragment: Fragment(R.layout.fragment_player) {
 
     private fun initControlButton() {
         binding.bottomPlayerControlButton.setOnClickListener {
-
-
-
             val player = this.player ?: return@setOnClickListener
 
             if (player.isPlaying) {
