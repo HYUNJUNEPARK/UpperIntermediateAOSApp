@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.FrameLayout
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.june.youtube.R
 import com.june.youtube.adapter.VideoAdapter
@@ -17,15 +18,13 @@ class MainActivity : AppCompatActivity() {
         lateinit var progressBar: ProgressBar
         lateinit var fragmentContainer: FrameLayout
     }
-    private val binding by lazy {
-        ActivityMainBinding.inflate(layoutInflater)
-    }
+    private lateinit var binding: ActivityMainBinding
     private val networkCheck: NetworkConnectionCallback by lazy { NetworkConnectionCallback(this) }
     private lateinit var videoAdapter: VideoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
