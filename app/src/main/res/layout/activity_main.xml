@@ -6,13 +6,13 @@
     <data>
         <variable
             name="mainActivity"
-            type="com.june.musicstreaming.MainActivity" />
+            type="com.june.musicstreaming.activity.MainActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".activity.MainActivity">
 
         <FrameLayout
             android:id="@+id/fragmentContainer"

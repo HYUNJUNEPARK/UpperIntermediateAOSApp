@@ -1,8 +1,9 @@
-package com.june.musicstreaming
+package com.june.musicstreaming.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import com.june.musicstreaming.R
 import com.june.musicstreaming.databinding.ActivityMainBinding
 import com.june.musicstreaming.fragment.PlayerFragment
 
