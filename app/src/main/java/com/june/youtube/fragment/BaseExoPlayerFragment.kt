@@ -30,40 +30,23 @@ abstract class BaseExoPlayerFragment<T: FragmentPlayerBinding>(@LayoutRes privat
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initView()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-
         _binding = null
         player?.release()
     }
 
     override fun onStart() {
         super.onStart()
-
         player?.pause()
     }
 
     protected open fun initView() {
         initPlayer()
         initControlButton()
-    }
-
-    fun play(url: String, title: String) {
-        //dataSource -> mediaSource
-        context?.let { context ->
-            val dataSourceFactory = DefaultDataSourceFactory(context)
-            val progressiveMediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
-                .createMediaSource(MediaItem.fromUri(Uri.parse(url)))
-            player?.setMediaSource(progressiveMediaSource)
-            player?.prepare() //데이터 가져옴
-            player?.play()
-        }
-        binding.playerMotionLayout.transitionToStart()
-        binding.bottomTitleTextView.text = title
     }
 
     private fun initPlayer() {
@@ -101,5 +84,21 @@ abstract class BaseExoPlayerFragment<T: FragmentPlayerBinding>(@LayoutRes privat
         binding.closeButton.setOnClickListener {
             MainActivity.fragmentContainer.visibility = View.INVISIBLE
         }
+    }
+
+    fun play(url: String, title: String) {
+        //dataSource -> mediaSource
+        context?.let { context ->
+            val dataSourceFactory = DefaultDataSourceFactory(context)
+            val mediaItem = MediaItem.fromUri(Uri.parse(url))
+            val progressiveMediaSource = ProgressiveMediaSource
+                .Factory(dataSourceFactory)
+                .createMediaSource(mediaItem)
+            player?.setMediaSource(progressiveMediaSource)
+            player?.prepare() //데이터 가져옴
+            player?.play()
+        }
+        binding.playerMotionLayout.transitionToStart()
+        binding.bottomTitleTextView.text = title
     }
 }

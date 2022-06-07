@@ -9,7 +9,6 @@ import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
 import com.june.youtube.R
 
-
 //fragment_player.xml
 class CustomMotionLayout(context: Context, attributeSet: AttributeSet? = null): MotionLayout(context, attributeSet) {
     private var motionTouchStarted = false

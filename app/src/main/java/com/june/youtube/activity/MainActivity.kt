@@ -11,7 +11,7 @@ import com.june.youtube.adapter.VideoAdapter
 import com.june.youtube.databinding.ActivityMainBinding
 import com.june.youtube.fragment.PlayerFragment
 import com.june.youtube.network.NetworkConnectionCallback
-import com.june.youtube.retrofit.MyRetrofit
+import com.june.youtube.retrofit.VideoRetrofit
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         networkCheck.register()
@@ -34,12 +33,11 @@ class MainActivity : AppCompatActivity() {
 
         attachFragment()
         initRecyclerView()
-        MyRetrofit(this, videoAdapter).videoList()
+        VideoRetrofit(this, videoAdapter).videoList()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-
         networkCheck.unregister()
     }
 

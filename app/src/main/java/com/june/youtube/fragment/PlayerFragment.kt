@@ -6,7 +6,7 @@ import com.june.youtube.R
 import com.june.youtube.activity.MainActivity
 import com.june.youtube.adapter.VideoAdapter
 import com.june.youtube.databinding.FragmentPlayerBinding
-import com.june.youtube.retrofit.MyRetrofit
+import com.june.youtube.retrofit.VideoRetrofit
 import kotlin.math.abs
 
 class PlayerFragment: BaseExoPlayerFragment<FragmentPlayerBinding>(R.layout.fragment_player) {
@@ -17,7 +17,7 @@ class PlayerFragment: BaseExoPlayerFragment<FragmentPlayerBinding>(R.layout.frag
 
         motionSyncFragmentMotionLayoutAndMainMotionLayout()
         initRecyclerView()
-        MyRetrofit(requireContext(), videoAdapter).videoList()
+        VideoRetrofit(requireContext(), videoAdapter).videoList()
     }
 
     private fun initRecyclerView() {
