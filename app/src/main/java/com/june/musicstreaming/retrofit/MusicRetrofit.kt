@@ -1,6 +1,7 @@
 package com.june.musicstreaming.retrofit
 
 import android.util.Log
+import com.june.musicstreaming.adapter.PlayListAdapter
 import com.june.musicstreaming.mapper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +17,7 @@ class MusicRetrofit {
             .build()
     }
 
-    fun retrofitCreate() {
+    fun retrofitCreate(playListAdapter: PlayListAdapter) {
         CoroutineScope(Dispatchers.IO).launch {
             retrofit().run {
                 create(MusicInterface::class.java)
@@ -28,7 +29,7 @@ class MusicRetrofit {
                                     val modelList = musicDto.musics.mapIndexed { index, musicEntity ->
                                         musicEntity.mapper(index.toLong())
                                     }
-
+                                    playListAdapter.submitList(modelList)
                                 }
                             }
                             override fun onFailure(call: Call<MusicDto>, t: Throwable) { }

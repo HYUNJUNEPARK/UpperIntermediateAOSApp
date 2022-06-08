@@ -1,18 +1,41 @@
 package com.june.musicstreaming.fragment
 
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.exoplayer2.SimpleExoPlayer
+import com.june.musicstreaming.adapter.PlayListAdapter
 import com.june.musicstreaming.R
 import com.june.musicstreaming.databinding.FragmentPlayerBinding
 import com.june.musicstreaming.retrofit.MusicRetrofit
 
 class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_player) {
     private var isWatchingPlayerListView = true
+    private lateinit var playListAdapter: PlayListAdapter
+
+    private var player: SimpleExoPlayer ? = null
 
     override fun initView() {
         super.initView()
-
         binding.playerFragment = this
-        MusicRetrofit().retrofitCreate() //get music list from server
+
+        initPlayView()
+        initRecyclerView()
+        MusicRetrofit().retrofitCreate(playListAdapter) //get music list from server
+    }
+
+    private fun initPlayView() {
+
+    }
+
+    private fun initRecyclerView() {
+        playListAdapter = PlayListAdapter {
+            //TODO 음악 재생
+        }
+
+        binding.playListRecyclerView.apply {
+            adapter = playListAdapter
+            layoutManager = LinearLayoutManager(context)
+        }
     }
 
     fun onPlayListButtonClicked() {

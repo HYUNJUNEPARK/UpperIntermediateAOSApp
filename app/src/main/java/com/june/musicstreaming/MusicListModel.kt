@@ -1,6 +1,6 @@
 package com.june.musicstreaming
 
-class MusicRecyclerViewModel (
+class MusicListModel (
     val id: Long,
     val track: String,
     val streamUrl: String,
