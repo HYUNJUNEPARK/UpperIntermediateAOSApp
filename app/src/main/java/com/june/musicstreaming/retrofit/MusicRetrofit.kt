@@ -1,15 +1,26 @@
 package com.june.musicstreaming.retrofit
 
 import android.util.Log
+import android.view.View
+import com.june.musicstreaming.MusicListModel
 import com.june.musicstreaming.adapter.PlayListAdapter
+import com.june.musicstreaming.fragment.PlayerFragment.Companion.TAG
+import com.june.musicstreaming.fragment.PlayerFragment.Companion.progressBar
 import com.june.musicstreaming.mapper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MusicRetrofit {
+    companion object {
+        lateinit var musicList: List<MusicListModel>
+    }
+
     private fun retrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(MockUrl.BASE_URL)
@@ -24,12 +35,20 @@ class MusicRetrofit {
                     .also { musicInterface ->
                         musicInterface.listMusic().enqueue( object : Callback<MusicDto> {
                             override fun onResponse(call: Call<MusicDto>, response: Response<MusicDto>) {
-                                Log.d("testLog", "onResponse: ${response.body()}")
                                 response.body()?.let { musicDto ->
                                     val modelList = musicDto.musics.mapIndexed { index, musicEntity ->
                                         musicEntity.mapper(index.toLong())
                                     }
+
+                                    musicList = modelList
+
+//                                    //TODO Check
+//                                    val pf = PlayerFragment()
+//                                    pf.setMusicList(modelList)
+
+
                                     playListAdapter.submitList(modelList)
+                                    progressBar.visibility = View.INVISIBLE
                                 }
                             }
                             override fun onFailure(call: Call<MusicDto>, t: Throwable) { }

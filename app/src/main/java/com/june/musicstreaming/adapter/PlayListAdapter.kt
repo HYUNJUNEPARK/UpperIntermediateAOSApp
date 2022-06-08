@@ -2,6 +2,7 @@ package com.june.musicstreaming.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,13 +10,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.june.musicstreaming.MusicListModel
-import com.june.musicstreaming.R
 import com.june.musicstreaming.databinding.ItemMusicBinding
+import com.june.musicstreaming.fragment.PlayerFragment.Companion.TAG
 
-class PlayListAdapter(private val callback: (MusicListModel)->Unit): ListAdapter<MusicListModel, PlayListAdapter.ViewHolder>(
-    diffUtil
-) {
-
+class PlayListAdapter(private val callback: (MusicListModel) -> Unit): ListAdapter<MusicListModel, PlayListAdapter.ViewHolder>(diffUtil) {
     inner class ViewHolder(private val binding: ItemMusicBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: MusicListModel) {
             binding.itemTrackTextView.text = item.track
@@ -35,6 +33,7 @@ class PlayListAdapter(private val callback: (MusicListModel)->Unit): ListAdapter
 
             itemView.setOnClickListener {
                 callback(item)
+                Log.d(TAG, "bind: ${item.streamUrl}")
             }
         }
     }
