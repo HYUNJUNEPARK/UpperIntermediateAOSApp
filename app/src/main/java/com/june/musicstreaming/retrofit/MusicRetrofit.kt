@@ -1,8 +1,11 @@
 package com.june.musicstreaming.retrofit
 
+import android.util.Log
 import android.view.View
 import com.june.musicstreaming.MusicListModel
 import com.june.musicstreaming.adapter.PlayListAdapter
+import com.june.musicstreaming.fragment.PlayerFragment.Companion.TAG
+import com.june.musicstreaming.fragment.PlayerFragment.Companion.musicList
 import com.june.musicstreaming.fragment.PlayerFragment.Companion.progressBar
 import com.june.musicstreaming.mapper
 import kotlinx.coroutines.CoroutineScope
@@ -15,10 +18,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MusicRetrofit {
-    companion object {
-        lateinit var musicList: List<MusicListModel>
-    }
-
     private fun retrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(MockUrl.BASE_URL)

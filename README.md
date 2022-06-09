@@ -7,3 +7,15 @@ ConstraintLayout 은 Group 위젯을 제공함
 ex)특정 컴포넌트들을 묶어 한번에 visible/invisible 처리
 `androidx.constraintlayout.widget.Group`
 
+mapIndexed
+iterable 을 대상으로 map 연산 시 원소 뿐 아니라 해당 원소가 갖고 있는 인덱스를 함께 묶어 매핑해주는 함수
+two-argument 함수를 인자로 받는 합성 함수
+
+```kotlin
+val names = listOf("a", "b")
+names.mapIndexed{ index, string ->
+    userPairingFun(index, string)
+}
+//(0, a)
+//(1, b)
+```

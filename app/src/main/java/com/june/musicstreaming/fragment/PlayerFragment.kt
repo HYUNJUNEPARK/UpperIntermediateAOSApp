@@ -1,25 +1,41 @@
 package com.june.musicstreaming.fragment
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.june.musicstreaming.MusicListModel
 import com.june.musicstreaming.R
 import com.june.musicstreaming.adapter.PlayListAdapter
 import com.june.musicstreaming.databinding.FragmentPlayerBinding
 import com.june.musicstreaming.retrofit.MusicRetrofit
-import com.june.musicstreaming.retrofit.MusicRetrofit.Companion.musicList
 
 class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_player) {
+    //액티비티에서 video Id 값을 뉴인스턴스에 넘겨주거나 할 때 apply 함수를 통해서 쉽게 arguments 에 추가할 수 있음
+    //PlayerFragment 를 직접 만드는 것보다 프래그먼트를 감싸는 인스턴스를 만들어서 넣어주는 게 어떤 점에서 좋지 ?
+    companion object {
+        fun newInstance(): PlayerFragment {
+            return PlayerFragment()
+        }
+        lateinit var progressBar: ProgressBar
+        const val TAG = "testLog"
+        var musicList: List<MusicListModel>? = null
+        //TODO EXO player
+        var player: SimpleExoPlayer ? = null
+    }
+
     private var isWatchingPlayerListView = true
     private lateinit var playListAdapter: PlayListAdapter
 
-    //TODO EXO player
-    private var player: SimpleExoPlayer ? = null
+
 
     override fun initView() {
         super.initView()
@@ -31,24 +47,43 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_pla
         initRecyclerView()
         MusicRetrofit().retrofitCreate(playListAdapter) //get music list from server
 
+        //play music
+//        val dataSourceFactory = DefaultDataSourceFactory(requireContext())
+//        val mediaItem = MediaItem.fromUri(Uri.parse("https://ncsmusic.s3.eu-west-1.amazonaws.com/tracks/000/000/937/shudder-1619172032-LyqUPFaNXD.mp3"))
+//        val progressiveMediaSource = ProgressiveMediaSource
+//            .Factory(dataSourceFactory)
+//            .createMediaSource(mediaItem)
+//        player?.setMediaSource(progressiveMediaSource)
+//        player?.prepare() //데이터 가져옴
+//        player?.play()
 
-//        binding.skipNextImageView.setOnClickListener {
-//            setMusicList()
-//        }
     }
 
-    private fun setMusicList() {
-        Log.d(TAG, "${musicList}")
-        player?.addMediaItems(musicList.map { musicListModel ->
-            Log.d(TAG, "setMusicList: ${musicListModel.streamUrl}")
-            MediaItem.Builder()
-                .setMediaId(musicListModel.id.toString())
-                .setUri(musicListModel.streamUrl)
-                .build()
-        })
-        player?.prepare()
+//    private fun setMusicList() {
+//        Log.d(TAG, "${musicList}")
+//        player?.addMediaItems(musicList!!.map { musicListModel ->
+//            Log.d(TAG, "setMusicList: ${musicListModel.streamUrl}")
+//            MediaItem.Builder()
+//                .setMediaId(musicListModel.id.toString())
+//                .setUri(musicListModel.streamUrl)
+//                .build()
+//        })
+//        player?.prepare()
+//        player?.play()
+//    }
+
+    fun play(url: String, context: Context) {
+        val dataSourceFactory = DefaultDataSourceFactory(context)
+        val mediaItem = MediaItem.fromUri(Uri.parse(url))
+        val progressiveMediaSource = ProgressiveMediaSource
+            .Factory(dataSourceFactory)
+            .createMediaSource(mediaItem)
+        player?.setMediaSource(progressiveMediaSource)
+        player?.prepare() //데이터 가져옴
         player?.play()
     }
+
+
 
     private fun initPlayView() {
         context?.let { context ->
@@ -70,40 +105,20 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_pla
         })
     }
 
-    //TODO EXO player
-//    fun setMusicList(modelList: List<MusicListModel>) {
-//        Log.d(TAG, "setMusicList: ${modelList[0].streamUrl}")
-//
-//        player?.addMediaItems(modelList.map { musicListModel ->
-//            Log.d(TAG, "setMusicList: ${musicListModel.streamUrl}")
-//            MediaItem.Builder()
-//                .setMediaId(musicListModel.id.toString())
-//                .setUri("https://ncsmusic.s3.eu-west-1.amazonaws.com/tracks/000/000/933/badniss-1618491636-ZXAKvq3LYz.mp3")
-//                .build()
-//        })
-//        player?.prepare()
-//        player?.play()
-//    }
-
-
-
-
     private fun initRecyclerView() {
-        playListAdapter = PlayListAdapter {
-            //TODO 음악 재생
-        }
+        playListAdapter = PlayListAdapter(requireContext())
 
         binding.playListRecyclerView.apply {
             adapter = playListAdapter
             layoutManager = LinearLayoutManager(context)
+            playListAdapter.submitList(musicList)
         }
     }
-
 
     private fun initPlayControlButtons() {
         binding.playControlImageView.setOnClickListener {
             Log.d(TAG, "initPlayControlButtons: Clicked ")
-            val player = this.player ?: return@setOnClickListener
+            val player = player ?: return@setOnClickListener
 
             if (player.isPlaying) {
                 player.pause()
@@ -126,15 +141,4 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_pla
         isWatchingPlayerListView = isWatchingPlayerListView.not()
     }
 
-
-
-    //액티비티에서 video Id 값을 뉴인스턴스에 넘겨주거나 할 때 apply 함수를 통해서 쉽게 arguments 에 추가할 수 있음
-    //PlayerFragment 를 직접 만드는 것보다 프래그먼트를 감싸는 인스턴스를 만들어서 넣어주는 게 어떤 점에서 좋지 ?
-    companion object {
-        fun newInstance(): PlayerFragment {
-            return PlayerFragment()
-        }
-        lateinit var progressBar: ProgressBar
-        const val TAG = "testLog"
-    }
 }

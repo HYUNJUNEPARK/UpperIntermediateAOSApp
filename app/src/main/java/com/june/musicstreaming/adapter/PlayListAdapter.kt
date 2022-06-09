@@ -1,6 +1,7 @@
 package com.june.musicstreaming.adapter
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,9 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.june.musicstreaming.MusicListModel
 import com.june.musicstreaming.databinding.ItemMusicBinding
+import com.june.musicstreaming.fragment.PlayerFragment
 import com.june.musicstreaming.fragment.PlayerFragment.Companion.TAG
 
-class PlayListAdapter(private val callback: (MusicListModel) -> Unit): ListAdapter<MusicListModel, PlayListAdapter.ViewHolder>(diffUtil) {
+class PlayListAdapter(val context: Context): ListAdapter<MusicListModel, PlayListAdapter.ViewHolder>(diffUtil) {
     inner class ViewHolder(private val binding: ItemMusicBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: MusicListModel) {
             binding.itemTrackTextView.text = item.track
@@ -32,10 +34,12 @@ class PlayListAdapter(private val callback: (MusicListModel) -> Unit): ListAdapt
             }
 
             itemView.setOnClickListener {
-                callback(item)
-                Log.d(TAG, "bind: ${item.streamUrl}")
+                //callback(item)
+//                Log.d(TAG, "bind: ${item.streamUrl}")
+                PlayerFragment().play(item.streamUrl, context)
             }
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -50,7 +54,7 @@ class PlayListAdapter(private val callback: (MusicListModel) -> Unit): ListAdapt
     }
 
     companion object {
-        val diffUtil = object : DiffUtil.ItemCallback<MusicListModel>() {
+        val diffUtil = object: DiffUtil.ItemCallback<MusicListModel>() {
             override fun areItemsTheSame(oldItem: MusicListModel, newItem: MusicListModel): Boolean {
                 return oldItem.id == newItem.id
             }
