@@ -1,4 +1,4 @@
-package com.june.musicstreaming
+package com.june.musicstreaming.model
 
 import com.june.musicstreaming.retrofit.MusicEntity
 

@@ -1,4 +1,4 @@
-package com.june.musicstreaming
+package com.june.musicstreaming.model
 
 class MusicListModel (
     val id: Long,

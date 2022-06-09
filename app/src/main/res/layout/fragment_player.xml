@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="playerFragment"
             type="com.june.musicstreaming.fragment.PlayerFragment" />
@@ -19,14 +18,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            tools:visibility="visible"
-            app:constraint_referenced_ids="trackTextView, artistTextView, coverImageCardView, bottomBackgroundView, playerSeekBar, playTimeTextView, totalTimeTextView" />
+            app:constraint_referenced_ids="trackTextView, artistTextView, coverImageCardView, bottomBackgroundView, playerSeekBar, playTimeTextView, totalTimeTextView "
+            tools:visibility="visible" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/playListViewGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="titleTextView, playListRecyclerView, playListSeekBar" />
+            app:constraint_referenced_ids="titleTextView, playListRecyclerView, playListSeekBar, coverThumbNail" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -78,7 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="play list"
+            android:text="PLAY LIST"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -196,6 +195,16 @@
             tools:progress="40" />
 
         <ImageView
+            android:id="@+id/coverThumbNail"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/skipPrevImageView"
+            app:layout_constraintTop_toTopOf="@id/playerView" />
+
+
+        <ImageView
             android:id="@+id/playControlImageView"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -203,6 +212,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:onClick="@{()->playerFragment.playControlButtonClicked()}"
             app:layout_constraintTop_toTopOf="@id/playerView"
             app:tint="@color/black" />
 
@@ -212,6 +222,7 @@
             android:layout_height="40dp"
             android:src="@drawable/ic_baseline_skip_next_48"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:onClick="@{()->playerFragment.playNextMusicButtonClicked()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.2"
             app:layout_constraintStart_toEndOf="@id/playControlImageView"
@@ -224,6 +235,7 @@
             android:layout_height="40dp"
             android:src="@drawable/ic_baseline_skip_previous_48"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:onClick="@{()->playerFragment.playPrevMusicButtonClicked()}"
             app:layout_constraintEnd_toStartOf="@id/playControlImageView"
             app:layout_constraintHorizontal_bias="0.8"
             app:layout_constraintStart_toStartOf="parent"
@@ -238,8 +250,9 @@
             android:onClick="@{()->playerFragment.onPlayListButtonClicked()}"
             android:src="@drawable/ic_baseline_playlist_play_48"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/skipNextImageView"
             app:layout_constraintTop_toTopOf="@id/playerView"
+            app:layout_constraintEnd_toEndOf="parent"
             app:tint="@color/black" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

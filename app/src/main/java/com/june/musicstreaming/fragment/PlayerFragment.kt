@@ -2,17 +2,16 @@ package com.june.musicstreaming.fragment
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.june.musicstreaming.MusicListModel
+import com.june.musicstreaming.model.MusicListModel
 import com.june.musicstreaming.R
 import com.june.musicstreaming.adapter.PlayListAdapter
 import com.june.musicstreaming.databinding.FragmentPlayerBinding
@@ -25,6 +24,8 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_pla
         fun newInstance(): PlayerFragment {
             return PlayerFragment()
         }
+        //플레이 중인 음악 객체를 채울 변수
+        var playingModel: MusicListModel? = null
         lateinit var progressBar: ProgressBar
         const val TAG = "testLog"
         var musicList: List<MusicListModel>? = null
@@ -35,44 +36,18 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_pla
     private var isWatchingPlayerListView = true
     private lateinit var playListAdapter: PlayListAdapter
 
-
-
     override fun initView() {
         super.initView()
         binding.playerFragment = this
         progressBar = binding.progressBar
 
         initPlayView()
-        initPlayControlButtons()
         initRecyclerView()
         MusicRetrofit().retrofitCreate(playListAdapter) //get music list from server
-
-        //play music
-//        val dataSourceFactory = DefaultDataSourceFactory(requireContext())
-//        val mediaItem = MediaItem.fromUri(Uri.parse("https://ncsmusic.s3.eu-west-1.amazonaws.com/tracks/000/000/937/shudder-1619172032-LyqUPFaNXD.mp3"))
-//        val progressiveMediaSource = ProgressiveMediaSource
-//            .Factory(dataSourceFactory)
-//            .createMediaSource(mediaItem)
-//        player?.setMediaSource(progressiveMediaSource)
-//        player?.prepare() //데이터 가져옴
-//        player?.play()
-
     }
 
-//    private fun setMusicList() {
-//        Log.d(TAG, "${musicList}")
-//        player?.addMediaItems(musicList!!.map { musicListModel ->
-//            Log.d(TAG, "setMusicList: ${musicListModel.streamUrl}")
-//            MediaItem.Builder()
-//                .setMediaId(musicListModel.id.toString())
-//                .setUri(musicListModel.streamUrl)
-//                .build()
-//        })
-//        player?.prepare()
-//        player?.play()
-//    }
-
-    fun play(url: String, context: Context) {
+    fun play(item: MusicListModel, context: Context) {
+        val url = item.streamUrl
         val dataSourceFactory = DefaultDataSourceFactory(context)
         val mediaItem = MediaItem.fromUri(Uri.parse(url))
         val progressiveMediaSource = ProgressiveMediaSource
@@ -81,16 +56,27 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_pla
         player?.setMediaSource(progressiveMediaSource)
         player?.prepare() //데이터 가져옴
         player?.play()
+
     }
 
+    fun updatePlayerView(item: MusicListModel?) {
+        binding.trackTextView.text = item?.track
+        binding.artistTextView.text = item?.artist
 
+        Glide.with(binding.coverImageView.context)
+            .load(item?.coverUrl)
+            .into(binding.coverImageView)
+
+        Glide.with(binding.coverThumbNail.context)
+            .load(item?.coverUrl)
+            .into(binding.coverThumbNail)
+    }
 
     private fun initPlayView() {
         context?.let { context ->
             player = SimpleExoPlayer.Builder(context).build()
         }
         binding.playerView.player = player
-
         player?.addListener(object: Player.EventListener {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 super.onIsPlayingChanged(isPlaying)
@@ -102,37 +88,40 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_pla
                     binding.playControlImageView.setImageResource(R.drawable.ic_baseline_play_arrow_24)
                 }
             }
+
+            //TODO 여기에다가 음악이 바뀔 때마다 PlayerView binding 해서 바꿔주기
+            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                super.onMediaItemTransition(mediaItem, reason)
+                updatePlayerView(playingModel)
+            }
         })
     }
 
     private fun initRecyclerView() {
         playListAdapter = PlayListAdapter(requireContext())
-
         binding.playListRecyclerView.apply {
             adapter = playListAdapter
             layoutManager = LinearLayoutManager(context)
-            playListAdapter.submitList(musicList)
         }
     }
 
-    private fun initPlayControlButtons() {
-        binding.playControlImageView.setOnClickListener {
-            Log.d(TAG, "initPlayControlButtons: Clicked ")
-            val player = player ?: return@setOnClickListener
-
-            if (player.isPlaying) {
-                player.pause()
-            }
-            else {
-                player.play()
-            }
+    fun playControlButtonClicked() {
+        val player = player ?: return
+        if (player.isPlaying) {
+            player.pause()
         }
-        binding.skipNextImageView.setOnClickListener {
-        }
-        binding.skipPrevImageView.setOnClickListener {
+        else {
+            player.play()
         }
     }
 
+    fun playNextMusicButtonClicked() {
+
+    }
+
+    fun playPrevMusicButtonClicked() {
+
+    }
 
     fun onPlayListButtonClicked() {
         //todo :  만약 서버에서 데이터가 다 불려오지 않은 상태일 때 예외처리 코드 필요
@@ -140,5 +129,4 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_pla
         binding.playListViewGroup.isVisible = isWatchingPlayerListView.not()
         isWatchingPlayerListView = isWatchingPlayerListView.not()
     }
-
 }
