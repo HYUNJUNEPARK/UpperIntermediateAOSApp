@@ -1,6 +1,7 @@
 package com.june.musicstreaming.model
 
-import android.util.Log
+import android.app.AlertDialog
+import android.content.Context
 import com.june.musicstreaming.fragment.PlayerFragment.Companion.allMusicList
 
 class NowPlayingMusicModel {
@@ -9,17 +10,25 @@ class NowPlayingMusicModel {
         var nowPlayingMusic: MusicModel? = null
     }
 
-    fun nextMusic() {
+    fun nextMusic(context: Context) {
         val nextMusicIdx: Int = nowPlayingMusic!!.id.toInt() + 1
-        if (nextMusicIdx == musicListSize!!) return
-
-        nowPlayingMusic = allMusicList!![nextMusicIdx]
+        if (nextMusicIdx == musicListSize!!) {
+            NowPlayingMusicDialog(context).nonNextMusicDialog.show()
+            return
+        }
+        else {
+            nowPlayingMusic = allMusicList!![nextMusicIdx]
+        }
     }
 
-    fun prevMusic() {
+    fun prevMusic(context: Context) {
         val prevMusicIdx: Int = nowPlayingMusic!!.id.toInt() - 1
-        if (prevMusicIdx < 0) return
-
-        nowPlayingMusic = allMusicList!![prevMusicIdx]
+        if (prevMusicIdx < 0) {
+            NowPlayingMusicDialog(context).nonPrevMusicDialog.show()
+            return
+        }
+        else {
+            nowPlayingMusic = allMusicList!![prevMusicIdx]
+        }
     }
 }

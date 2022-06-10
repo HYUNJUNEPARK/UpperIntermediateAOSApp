@@ -112,14 +112,14 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_pla
     }
 
     fun playNextMusicButtonClicked() {
-        NowPlayingMusicModel().nextMusic().let {
+        NowPlayingMusicModel().nextMusic(requireContext()).let {
             updatePlayCoverView(NowPlayingMusicModel.nowPlayingMusic)
             ExoPlayer().play(NowPlayingMusicModel.nowPlayingMusic!!, requireContext())
         }
     }
 
     fun playPrevMusicButtonClicked() {
-        NowPlayingMusicModel().prevMusic().let {
+        NowPlayingMusicModel().prevMusic(requireContext()).let {
             updatePlayCoverView(NowPlayingMusicModel.nowPlayingMusic)
             ExoPlayer().play(NowPlayingMusicModel.nowPlayingMusic!!, requireContext())
         }
