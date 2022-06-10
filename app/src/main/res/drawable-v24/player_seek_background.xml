@@ -13,8 +13,8 @@
             <shape>
                 <corners android:radius="2dp"/>
                 <stroke android:width="2dp"
-                    android:color="@color/purple_200"/>
-                <solid android:color="@color/purple_200"/>
+                    android:color="#2196F3"/>
+                <solid android:color="#2196F3"/>
             </shape>
         </clip>
     </item>

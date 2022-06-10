@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.june.musicstreaming.ExoPlayer.ExoPlayer
 import com.june.musicstreaming.model.MusicListModel
 import com.june.musicstreaming.databinding.ItemMusicBinding
 import com.june.musicstreaming.fragment.PlayerFragment
@@ -32,8 +33,8 @@ class PlayListAdapter(val context: Context): ListAdapter<MusicListModel, PlayLis
             }
 
             itemView.setOnClickListener {
-                PlayerFragment.playingModel = item
-                PlayerFragment().play(item, context)
+                PlayerFragment.nowPlayingModel = item
+                ExoPlayer().play(item, context)
             }
         }
 

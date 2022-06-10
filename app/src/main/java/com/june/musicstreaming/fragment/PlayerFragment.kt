@@ -1,20 +1,17 @@
 package com.june.musicstreaming.fragment
 
-import android.content.Context
-import android.net.Uri
 import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.source.ProgressiveMediaSource
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.june.musicstreaming.model.MusicListModel
+import com.june.musicstreaming.ExoPlayer.ExoPlayer
+import com.june.musicstreaming.ExoPlayer.ExoPlayer.Companion.player
 import com.june.musicstreaming.R
 import com.june.musicstreaming.adapter.PlayListAdapter
 import com.june.musicstreaming.databinding.FragmentPlayerBinding
+import com.june.musicstreaming.model.MusicListModel
 import com.june.musicstreaming.retrofit.MusicRetrofit
 
 class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_player) {
@@ -25,12 +22,11 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_pla
             return PlayerFragment()
         }
         //플레이 중인 음악 객체를 채울 변수
-        var playingModel: MusicListModel? = null
+        var nowPlayingModel: MusicListModel? = null
+
+        //TODO AOS context class 를 메모리 누수 때문에 companion object 애 사용하지 않는 것을 권장
         lateinit var progressBar: ProgressBar
-        const val TAG = "testLog"
         var musicList: List<MusicListModel>? = null
-        //TODO EXO player
-        var player: SimpleExoPlayer ? = null
     }
 
     private var isWatchingPlayerListView = true
@@ -46,37 +42,20 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_pla
         MusicRetrofit().retrofitCreate(playListAdapter) //get music list from server
     }
 
-    fun play(item: MusicListModel, context: Context) {
-        val url = item.streamUrl
-        val dataSourceFactory = DefaultDataSourceFactory(context)
-        val mediaItem = MediaItem.fromUri(Uri.parse(url))
-        val progressiveMediaSource = ProgressiveMediaSource
-            .Factory(dataSourceFactory)
-            .createMediaSource(mediaItem)
-        player?.setMediaSource(progressiveMediaSource)
-        player?.prepare() //데이터 가져옴
-        player?.play()
-
-    }
-
-    fun updatePlayerView(item: MusicListModel?) {
-        binding.trackTextView.text = item?.track
-        binding.artistTextView.text = item?.artist
-
-        Glide.with(binding.coverImageView.context)
-            .load(item?.coverUrl)
-            .into(binding.coverImageView)
-
-        Glide.with(binding.coverThumbNail.context)
-            .load(item?.coverUrl)
-            .into(binding.coverThumbNail)
+    private fun initRecyclerView() {
+        playListAdapter = PlayListAdapter(requireContext())
+        binding.playListRecyclerView.apply {
+            adapter = playListAdapter
+            layoutManager = LinearLayoutManager(context)
+        }
     }
 
     private fun initPlayView() {
         context?.let { context ->
-            player = SimpleExoPlayer.Builder(context).build()
+            ExoPlayer().initExoPlayer(context)
         }
         binding.playerView.player = player
+
         player?.addListener(object: Player.EventListener {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 super.onIsPlayingChanged(isPlaying)
@@ -92,17 +71,22 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_pla
             //TODO 여기에다가 음악이 바뀔 때마다 PlayerView binding 해서 바꿔주기
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                 super.onMediaItemTransition(mediaItem, reason)
-                updatePlayerView(playingModel)
+                updatePlayerView(nowPlayingModel)
             }
         })
     }
 
-    private fun initRecyclerView() {
-        playListAdapter = PlayListAdapter(requireContext())
-        binding.playListRecyclerView.apply {
-            adapter = playListAdapter
-            layoutManager = LinearLayoutManager(context)
-        }
+    fun updatePlayerView(item: MusicListModel?) {
+        binding.trackTextView.text = item?.track
+        binding.artistTextView.text = item?.artist
+
+        Glide.with(binding.coverImageView.context)
+            .load(item?.coverUrl)
+            .into(binding.coverImageView)
+
+        Glide.with(binding.coverThumbNail.context)
+            .load(item?.coverUrl)
+            .into(binding.coverThumbNail)
     }
 
     fun playControlButtonClicked() {
@@ -123,8 +107,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_pla
 
     }
 
-    fun onPlayListButtonClicked() {
-        //todo :  만약 서버에서 데이터가 다 불려오지 않은 상태일 때 예외처리 코드 필요
+    fun playListButtonClicked() {
         binding.playerViewGroup.isVisible = isWatchingPlayerListView
         binding.playListViewGroup.isVisible = isWatchingPlayerListView.not()
         isWatchingPlayerListView = isWatchingPlayerListView.not()

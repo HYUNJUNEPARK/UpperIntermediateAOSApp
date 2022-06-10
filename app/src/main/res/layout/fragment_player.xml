@@ -158,12 +158,26 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:progress="40" />
 
+        <SeekBar
+            android:id="@+id/playListSeekBar"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:clickable="false"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:progressTint="#2196F3"
+            android:thumbTint="#2196F3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/playerView"
+            tools:progress="40" />
+
         <TextView
             android:id="@+id/playTimeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textColor="@color/purple_200"
+            android:textColor="#2196F3"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/playerSeekBar"
             app:layout_constraintTop_toBottomOf="@id/playerSeekBar"
@@ -180,19 +194,7 @@
             app:layout_constraintTop_toBottomOf="@id/playerSeekBar"
             tools:text="0:00" />
 
-        <SeekBar
-            android:id="@+id/playListSeekBar"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:clickable="false"
-            android:paddingStart="0dp"
-            android:paddingEnd="0dp"
-            android:progressTint="@color/purple_200"
-            android:thumbTint="@color/purple_200"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/playerView"
-            tools:progress="40" />
+
 
         <ImageView
             android:id="@+id/coverThumbNail"
@@ -247,7 +249,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="24dp"
-            android:onClick="@{()->playerFragment.onPlayListButtonClicked()}"
+            android:onClick="@{()->playerFragment.playListButtonClicked()}"
             android:src="@drawable/ic_baseline_playlist_play_48"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/skipNextImageView"
