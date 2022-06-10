@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
-import com.june.musicstreaming.ExoPlayer.ExoPlayer
-import com.june.musicstreaming.ExoPlayer.ExoPlayer.Companion.player
+import com.june.musicstreaming.exoPlayer.ExoPlayer
+import com.june.musicstreaming.exoPlayer.ExoPlayer.Companion.player
 import com.june.musicstreaming.R
 import com.june.musicstreaming.adapter.PlayListAdapter
 import com.june.musicstreaming.databinding.FragmentPlayerBinding

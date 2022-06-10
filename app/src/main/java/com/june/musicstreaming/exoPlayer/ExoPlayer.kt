@@ -1,6 +1,7 @@
-package com.june.musicstreaming.ExoPlayer
+package com.june.musicstreaming.exoPlayer
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -8,9 +9,9 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.june.musicstreaming.model.MusicModel
 import com.june.musicstreaming.model.NowPlayingMusicModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.june.musicstreaming.service.Constant.Companion.PLAYER_INTENT_ACTION
+import com.june.musicstreaming.service.ForegroundService
+import com.june.musicstreaming.service.Notification
 
 class ExoPlayer {
     companion object {
@@ -33,5 +34,11 @@ class ExoPlayer {
         player?.setMediaSource(progressiveMediaSource)
         player?.prepare() //데이터 가져옴
         player?.play()
+
+        val intent = Intent(context, ForegroundService::class.java)
+        intent.action = PLAYER_INTENT_ACTION
+        context.startService(intent)
+
+        //Notification(context).notifyNotification()
     }
 }
