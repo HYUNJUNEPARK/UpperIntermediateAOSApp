@@ -2,8 +2,9 @@ package com.june.musicstreaming.retrofit
 
 import android.view.View
 import com.june.musicstreaming.adapter.PlayListAdapter
-import com.june.musicstreaming.fragment.PlayerFragment.Companion.musicList
+import com.june.musicstreaming.fragment.PlayerFragment.Companion.allMusicList
 import com.june.musicstreaming.fragment.PlayerFragment.Companion.progressBar
+import com.june.musicstreaming.model.NowPlayingMusicModel
 import com.june.musicstreaming.model.mapper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,10 +31,11 @@ class MusicRetrofit {
                         musicInterface.listMusic().enqueue( object : Callback<MusicDto> {
                             override fun onResponse(call: Call<MusicDto>, response: Response<MusicDto>) {
                                 response.body()?.let { musicDto ->
-                                    musicList = musicDto.musics.mapIndexed { index, musicEntity ->
+                                    allMusicList = musicDto.musics.mapIndexed { index, musicEntity ->
                                         musicEntity.mapper(index.toLong())
                                     }
-                                    playListAdapter.submitList(musicList)
+                                    NowPlayingMusicModel.musicListSize = allMusicList?.size
+                                    playListAdapter.submitList(allMusicList)
                                     progressBar.visibility = View.INVISIBLE
                                 }
                             }

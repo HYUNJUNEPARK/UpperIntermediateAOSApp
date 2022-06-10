@@ -6,7 +6,8 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.june.musicstreaming.model.MusicListModel
+import com.june.musicstreaming.model.MusicModel
+import com.june.musicstreaming.model.NowPlayingMusicModel
 
 class ExoPlayer {
     companion object {
@@ -17,7 +18,9 @@ class ExoPlayer {
         player = SimpleExoPlayer.Builder(context).build()
     }
 
-    fun play(item: MusicListModel, context: Context) {
+    fun play(item: MusicModel, context: Context) {
+        NowPlayingMusicModel.nowPlayingMusic = item
+
         val url = item.streamUrl
         val dataSourceFactory = DefaultDataSourceFactory(context)
         val mediaItem = MediaItem.fromUri(Uri.parse(url))

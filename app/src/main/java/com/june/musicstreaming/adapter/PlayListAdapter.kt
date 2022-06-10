@@ -10,13 +10,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.june.musicstreaming.ExoPlayer.ExoPlayer
-import com.june.musicstreaming.model.MusicListModel
+import com.june.musicstreaming.model.MusicModel
 import com.june.musicstreaming.databinding.ItemMusicBinding
 import com.june.musicstreaming.fragment.PlayerFragment
+import com.june.musicstreaming.model.NowPlayingMusicModel
 
-class PlayListAdapter(val context: Context): ListAdapter<MusicListModel, PlayListAdapter.ViewHolder>(diffUtil) {
+class PlayListAdapter(val context: Context): ListAdapter<MusicModel, PlayListAdapter.ViewHolder>(diffUtil) {
     inner class ViewHolder(private val binding: ItemMusicBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: MusicListModel) {
+        fun bind(item: MusicModel) {
             binding.itemTrackTextView.text = item.track
             binding.itemArtistTextView.text = item.artist
 
@@ -33,7 +34,7 @@ class PlayListAdapter(val context: Context): ListAdapter<MusicListModel, PlayLis
             }
 
             itemView.setOnClickListener {
-                PlayerFragment.nowPlayingModel = item
+                NowPlayingMusicModel.nowPlayingMusic = item
                 ExoPlayer().play(item, context)
             }
         }
@@ -52,12 +53,12 @@ class PlayListAdapter(val context: Context): ListAdapter<MusicListModel, PlayLis
     }
 
     companion object {
-        val diffUtil = object: DiffUtil.ItemCallback<MusicListModel>() {
-            override fun areItemsTheSame(oldItem: MusicListModel, newItem: MusicListModel): Boolean {
+        val diffUtil = object: DiffUtil.ItemCallback<MusicModel>() {
+            override fun areItemsTheSame(oldItem: MusicModel, newItem: MusicModel): Boolean {
                 return oldItem.id == newItem.id
             }
             @SuppressLint("DiffUtilEquals")
-            override fun areContentsTheSame(oldItem: MusicListModel, newItem: MusicListModel): Boolean {
+            override fun areContentsTheSame(oldItem: MusicModel, newItem: MusicModel): Boolean {
                 return oldItem == newItem
             }
         }

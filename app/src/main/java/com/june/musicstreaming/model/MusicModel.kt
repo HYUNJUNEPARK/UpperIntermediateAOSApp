@@ -1,6 +1,6 @@
 package com.june.musicstreaming.model
 
-class MusicListModel (
+class MusicModel (
     val id: Long,
     val track: String,
     val streamUrl: String,
