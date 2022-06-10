@@ -58,5 +58,4 @@ class Notification(private val context: Context) {
             return builder
         }
     }
-
 }

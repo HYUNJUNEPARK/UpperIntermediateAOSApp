@@ -100,7 +100,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_pla
             .into(binding.coverThumbNail)
     }
 
-//Buttons
+//Play buttons
     fun playControlButtonClicked() {
         val player = player ?: return
         if (player.isPlaying) {

@@ -11,7 +11,6 @@ import com.june.musicstreaming.model.MusicModel
 import com.june.musicstreaming.model.NowPlayingMusicModel
 import com.june.musicstreaming.service.Constant.Companion.PLAYER_INTENT_ACTION
 import com.june.musicstreaming.service.ForegroundService
-import com.june.musicstreaming.service.Notification
 
 class ExoPlayer {
     companion object {
@@ -35,10 +34,9 @@ class ExoPlayer {
         player?.prepare() //데이터 가져옴
         player?.play()
 
+        //start service and open notification
         val intent = Intent(context, ForegroundService::class.java)
         intent.action = PLAYER_INTENT_ACTION
         context.startService(intent)
-
-        //Notification(context).notifyNotification()
     }
 }

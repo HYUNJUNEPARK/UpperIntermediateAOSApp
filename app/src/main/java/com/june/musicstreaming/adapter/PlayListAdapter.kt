@@ -41,11 +41,8 @@ class PlayListAdapter(val context: Context): ListAdapter<MusicModel, PlayListAda
 
                 NowPlayingMusicModel.nowPlayingMusic = item
                 ExoPlayer().play(item, context)
-
-
             }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
