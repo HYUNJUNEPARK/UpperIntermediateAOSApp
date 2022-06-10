@@ -1,5 +1,6 @@
 package com.june.musicstreaming.fragment
 
+import android.graphics.Color
 import android.widget.ProgressBar
 import android.widget.SeekBar
 import androidx.core.view.isVisible
@@ -18,15 +19,12 @@ import com.june.musicstreaming.retrofit.MusicRetrofit
 import java.util.concurrent.TimeUnit
 
 class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_player) {
-    //액티비티에서 video Id 값을 뉴인스턴스에 넘겨주거나 할 때 apply 함수를 통해서 쉽게 arguments 에 추가할 수 있음
-    //PlayerFragment 를 직접 만드는 것보다 프래그먼트를 감싸는 인스턴스를 만들어서 넣어주는 게 어떤 점에서 좋지 ?
     companion object {
         fun newInstance(): PlayerFragment {
             return PlayerFragment()
         }
-        //TODO AOS context class 를 메모리 누수 때문에 companion object 애 사용하지 않는 것을 권장
-        lateinit var progressBar: ProgressBar
-        var allMusicList: List<MusicModel>? = null
+        lateinit var progressBar: ProgressBar //TODO AOS context class 를 메모리 누수 때문에 companion object 애 사용하지 않는 것을 권장
+        var allMusicList: List<MusicModel>? = null //initialized in MusicRetrofit
     }
     //TODO Check what is Runnable
     private val updateSeekRunnable = Runnable {
@@ -70,9 +68,11 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_pla
                 super.onIsPlayingChanged(isPlaying)
                 if (isPlaying) {
                     binding.playControlImageView.setImageResource(R.drawable.ic_baseline_pause_48)
+                    binding.playControlImageView.setColorFilter(Color.argb(255, 153, 0, 51))
                 }
                 else {
                     binding.playControlImageView.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+                    binding.playControlImageView.setColorFilter(Color.argb(255, 0, 0, 0))
                 }
             }
             override fun onPlaybackStateChanged(state: Int) {

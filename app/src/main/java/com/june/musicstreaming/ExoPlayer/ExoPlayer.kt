@@ -8,6 +8,9 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.june.musicstreaming.model.MusicModel
 import com.june.musicstreaming.model.NowPlayingMusicModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ExoPlayer {
     companion object {
