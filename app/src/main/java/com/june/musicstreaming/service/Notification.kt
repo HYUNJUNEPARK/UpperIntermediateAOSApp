@@ -8,12 +8,14 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.util.Log
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.june.musicstreaming.R
 import com.june.musicstreaming.exoPlayer.ExoPlayer.Companion.player
+import com.june.musicstreaming.model.NowPlayingMusicModel
 import com.june.musicstreaming.service.Constant.Companion.CHANNEL_ID
 import com.june.musicstreaming.service.Constant.Companion.CHANNEL_NAME
 import com.june.musicstreaming.service.Constant.Companion.NOTIFICATION_ID
@@ -30,8 +32,8 @@ class Notification(private val context: Context) {
     lateinit var builder: NotificationCompat.Builder
     lateinit var mContentView: RemoteViews
 
-    fun notifyNotification(artist: String, title: String, coverURL:String) {
-        notification(artist, title, coverURL)
+    fun notifyNotification() {
+        notification()
         notificationManager.notify(
             NOTIFICATION_ID,
             builder.build()
@@ -42,12 +44,11 @@ class Notification(private val context: Context) {
         notificationManager.cancel(NOTIFICATION_ID)
     }
 
-    private fun notification(artist: String, title: String, coverURL:String) {
+    private fun notification() {
         val intent = Intent(context, ForegroundService::class.java)
         intent.action = PLAYER_INTENT_ACTION
 
-        //notification UI
-        notificationUI(artist, title, coverURL)
+        notificationUI()
 
         builder = notificationBuilder().apply {
             setSmallIcon(android.R.drawable.ic_notification_overlay)
@@ -61,6 +62,36 @@ class Notification(private val context: Context) {
         playControlImageViewClicked()
         skipNextImageViewClicked()
     }
+
+    private fun notificationUI() {
+        val artist = NowPlayingMusicModel.nowPlayingMusic?.artist.toString()
+        val title = NowPlayingMusicModel.nowPlayingMusic?.track.toString()
+        val coverURL = NowPlayingMusicModel.nowPlayingMusic?.coverUrl.toString()
+
+        mContentView = RemoteViews(context.packageName, R.layout.notification)
+        GlideApp.with(context)
+            .asBitmap()
+            .load(coverURL)
+            .into(object : CustomTarget<Bitmap>() {
+                //load 에 명시한 이미지를 불러왔을 때 자동으로 호출됨
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    mContentView.setImageViewBitmap(R.id.coverImage, resource)
+                }
+                override fun onLoadCleared(placeholder: Drawable?) {
+                }
+            })
+        mContentView.setTextViewText(R.id.title, "$title")
+        mContentView.setTextViewText(R.id.artist, "$artist")
+
+        if(player!!.isPlaying) {
+            mContentView.setImageViewResource(R.id.playControlImageView, R.drawable.ic_baseline_pause_48)
+        }
+        else {
+            mContentView.setImageViewResource(R.id.playControlImageView, R.drawable.ic_baseline_play_arrow_24)
+
+        }
+    }
+
 
     private fun notificationBuilder(): NotificationCompat.Builder {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -78,32 +109,6 @@ class Notification(private val context: Context) {
             builder = NotificationCompat.Builder(context)
             return builder
         }
-    }
-
-    private fun notificationUI(artist: String, title: String, coverURL:String) {
-        mContentView = RemoteViews(context.packageName, R.layout.notification)
-        GlideApp.with(context)
-            .asBitmap()
-            .load(coverURL)
-            .into(object : CustomTarget<Bitmap>() {
-                //load 에 명시한 이미지를 불러왔을 때 자동으로 호출됨
-                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    mContentView.setImageViewBitmap(R.id.coverImage, resource)
-                }
-                override fun onLoadCleared(placeholder: Drawable?) {
-                }
-            })
-        mContentView.setTextViewText(R.id.title, "$title")
-        mContentView.setTextViewText(R.id.artist, "$artist")
-
-        if(player!!.isPlaying) {
-            mContentView.setImageViewResource(R.id.playControlImageView, R.drawable.ic_baseline_play_arrow_24)
-        }
-        else {
-            mContentView.setImageViewResource(R.id.playControlImageView, R.drawable.ic_baseline_pause_48)
-        }
-
-
     }
 
     private fun skipPrevImageViewClicked() {

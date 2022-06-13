@@ -28,18 +28,13 @@ class PlayListAdapter(val context: Context): ListAdapter<MusicModel, PlayListAda
                 .thumbnail(0.1f)
                 .into(binding.itemCoverImageView)
 
-            if (item.isPlaying) {
-                itemView.setBackgroundColor(Color.GRAY)
-            }
-            else {
-                itemView.setBackgroundColor(Color.TRANSPARENT)
-            }
-
             itemView.setOnClickListener {
                 val intent = Intent(context, ForegroundService::class.java)
                 startForegroundService(context, intent)
 
                 NowPlayingMusicModel.nowPlayingMusic = item
+                NowPlayingMusicModel.nowPlayingMusic?.isPlaying = true
+
                 ExoPlayer().play(item, context)
             }
         }

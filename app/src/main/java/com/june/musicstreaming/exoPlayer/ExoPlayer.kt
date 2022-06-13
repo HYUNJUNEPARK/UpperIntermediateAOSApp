@@ -22,7 +22,7 @@ class ExoPlayer {
     }
 
     fun play(item: MusicModel, context: Context) {
-        NowPlayingMusicModel.nowPlayingMusic = item
+        //NowPlayingMusicModel.nowPlayingMusic = item
 
         val url = item.streamUrl
         val dataSourceFactory = DefaultDataSourceFactory(context)
@@ -36,7 +36,6 @@ class ExoPlayer {
 
         //start service and open notification
         val intent = Intent(context, ForegroundService::class.java)
-        intent.action = PLAYER_INTENT_ACTION
         context.startService(intent)
     }
 }

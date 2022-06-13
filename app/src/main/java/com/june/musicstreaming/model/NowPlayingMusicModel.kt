@@ -30,4 +30,24 @@ class NowPlayingMusicModel {
             nowPlayingMusic = allMusicList!![prevMusicIdx]
         }
     }
+
+    fun notificationNextMusic() {
+        val nextMusicIdx: Int = nowPlayingMusic!!.id.toInt() + 1
+        if (nextMusicIdx == musicListSize!!) {
+            return
+        }
+        else {
+            nowPlayingMusic = allMusicList!![nextMusicIdx]
+        }
+    }
+
+    fun notificationPrevMusic() {
+        val prevMusicIdx: Int = nowPlayingMusic!!.id.toInt() - 1
+        if (prevMusicIdx < 0) {
+            return
+        }
+        else {
+            nowPlayingMusic = allMusicList!![prevMusicIdx]
+        }
+    }
 }

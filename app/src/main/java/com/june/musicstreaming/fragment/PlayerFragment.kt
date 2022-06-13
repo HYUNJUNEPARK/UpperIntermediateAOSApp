@@ -1,6 +1,7 @@
 package com.june.musicstreaming.fragment
 
 import android.graphics.Color
+import android.util.Log
 import android.widget.ProgressBar
 import android.widget.SeekBar
 import androidx.core.view.isVisible
@@ -67,6 +68,9 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_pla
         player?.addListener(object: Player.EventListener {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 super.onIsPlayingChanged(isPlaying)
+
+                Notification(requireContext()).notifyNotification()
+
                 if (isPlaying) {
                     binding.playControlImageView.setImageResource(R.drawable.ic_baseline_pause_48)
                     binding.playControlImageView.setColorFilter(Color.argb(255, 153, 0, 51))
@@ -102,26 +106,23 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_pla
     }
 
 //Play buttons
+
+    //TODO player.isPlaying 이 바뀔 때 살짝 딜레이가 있어서 동기화가 안되는 버그가 있음
+    //TODO model isPlaying 변수를 싱글톤 패턴으로 이용하는 것이 버그를 없앨 수 있는 방법임
     fun playControlButtonClicked() {
         val player = player ?: return
         if (player.isPlaying) {
-            player.pause()
-
-            //TODO 중복코드 ForegroundService notification UI
-            val artist = NowPlayingMusicModel.nowPlayingMusic?.artist.toString()
-            val title = NowPlayingMusicModel.nowPlayingMusic?.track.toString()
-            val coverURL = NowPlayingMusicModel.nowPlayingMusic?.coverUrl.toString()
-            Notification(requireContext()).notifyNotification(artist, title, coverURL)
+            player.pause()//음악정지
+            NowPlayingMusicModel.nowPlayingMusic?.isPlaying = false
+            Notification(requireContext()).notifyNotification()
         }
         else {
-            player.play()
+            player.play() //음악 재생
+//            binding.playControlImageView.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+//            binding.playControlImageView.setColorFilter(Color.argb(255, 100, 100, 100))
 
-            //notification UI
-            val artist = NowPlayingMusicModel.nowPlayingMusic?.artist.toString()
-            val title = NowPlayingMusicModel.nowPlayingMusic?.track.toString()
-            val coverURL = NowPlayingMusicModel.nowPlayingMusic?.coverUrl.toString()
-            Notification(requireContext()).notifyNotification(artist, title, coverURL)
-
+            NowPlayingMusicModel.nowPlayingMusic?.isPlaying = true
+            Notification(requireContext()).notifyNotification()
         }
     }
 
@@ -129,6 +130,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_pla
         NowPlayingMusicModel().nextMusic(requireContext()).let {
             updatePlayCoverView(NowPlayingMusicModel.nowPlayingMusic)
             ExoPlayer().play(NowPlayingMusicModel.nowPlayingMusic!!, requireContext())
+
         }
     }
 
