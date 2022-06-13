@@ -14,12 +14,13 @@ import androidx.core.app.NotificationCompat
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.june.musicstreaming.R
+import com.june.musicstreaming.activity.MainActivity
 import com.june.musicstreaming.exoPlayer.ExoPlayer.Companion.player
 import com.june.musicstreaming.model.NowPlayingMusicModel
 import com.june.musicstreaming.service.Constant.Companion.CHANNEL_ID
 import com.june.musicstreaming.service.Constant.Companion.CHANNEL_NAME
+import com.june.musicstreaming.service.Constant.Companion.MAIN_ACTIVITY_INTENT_REQ_CODE
 import com.june.musicstreaming.service.Constant.Companion.NOTIFICATION_ID
-import com.june.musicstreaming.service.Constant.Companion.PLAYER_INTENT_ACTION
 import com.june.musicstreaming.service.Constant.Companion.PLAY_CONTROL
 import com.june.musicstreaming.service.Constant.Companion.PLAY_CONTROL_REQ_CODE
 import com.june.musicstreaming.service.Constant.Companion.SKIP_NEXT
@@ -45,9 +46,6 @@ class Notification(private val context: Context) {
     }
 
     private fun notification() {
-        val intent = Intent(context, ForegroundService::class.java)
-        intent.action = PLAYER_INTENT_ACTION
-
         notificationUI()
 
         builder = notificationBuilder().apply {
@@ -88,7 +86,6 @@ class Notification(private val context: Context) {
         }
         else {
             mContentView.setImageViewResource(R.id.playControlImageView, R.drawable.ic_baseline_play_arrow_24)
-
         }
     }
 
