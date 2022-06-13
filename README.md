@@ -19,3 +19,8 @@ names.mapIndexed{ index, string ->
 //(0, a)
 //(1, b)
 ```
+
+
+
+
+https://www.tutorialsbuzz.com/2021/02/android-notification-image-url-glide-setLargeIcon-bigPicture-kotlin.html
