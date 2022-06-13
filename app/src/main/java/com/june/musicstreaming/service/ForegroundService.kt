@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
 import android.util.Log
+import com.june.musicstreaming.exoPlayer.ExoPlayer
+import com.june.musicstreaming.exoPlayer.ExoPlayer.Companion.player
 import com.june.musicstreaming.model.NowPlayingMusicModel
 import com.june.musicstreaming.service.Constant.Companion.PLAY_CONTROL
 import com.june.musicstreaming.service.Constant.Companion.SKIP_NEXT
@@ -15,6 +17,8 @@ class ForegroundService : Service() {
         //TODO 음악 컨트롤 할 것 -> 알람에 UI 세팅 먼저
         //TODO 이 부분이 두번 실행되는 버그 있음 찾아서 수정할 것
 
+
+        //TODO 중복 코드 playerFragment
         //notification UI
         val artist = NowPlayingMusicModel.nowPlayingMusic?.artist.toString()
         val title = NowPlayingMusicModel.nowPlayingMusic?.track.toString()
@@ -22,16 +26,22 @@ class ForegroundService : Service() {
         Notification(this).notifyNotification(artist, title, coverURL)
 
         //Button Action
+        if (intent?.action == PLAY_CONTROL) {
+            Log.d("testLog", "play")
+            if (player!!.isPlaying) {
+                player!!.pause()
+            }
+            else {
+                player!!.play()
+            }
+        }
+
         if (intent?.action == SKIP_NEXT) {
             Log.d("testLog", "skip next")
         }
 
         if (intent?.action == SKIP_PREV) {
             Log.d("testLog", "skip prev")
-        }
-
-        if (intent?.action == PLAY_CONTROL) {
-            Log.d("testLog", "play")
         }
 
         return super.onStartCommand(intent, flags, startId)

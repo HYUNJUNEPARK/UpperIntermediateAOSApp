@@ -16,6 +16,7 @@ import com.june.musicstreaming.databinding.FragmentPlayerBinding
 import com.june.musicstreaming.model.MusicModel
 import com.june.musicstreaming.model.NowPlayingMusicModel
 import com.june.musicstreaming.retrofit.MusicRetrofit
+import com.june.musicstreaming.service.Notification
 import java.util.concurrent.TimeUnit
 
 class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_player) {
@@ -105,9 +106,22 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_pla
         val player = player ?: return
         if (player.isPlaying) {
             player.pause()
+
+            //TODO 중복코드 ForegroundService notification UI
+            val artist = NowPlayingMusicModel.nowPlayingMusic?.artist.toString()
+            val title = NowPlayingMusicModel.nowPlayingMusic?.track.toString()
+            val coverURL = NowPlayingMusicModel.nowPlayingMusic?.coverUrl.toString()
+            Notification(requireContext()).notifyNotification(artist, title, coverURL)
         }
         else {
             player.play()
+
+            //notification UI
+            val artist = NowPlayingMusicModel.nowPlayingMusic?.artist.toString()
+            val title = NowPlayingMusicModel.nowPlayingMusic?.track.toString()
+            val coverURL = NowPlayingMusicModel.nowPlayingMusic?.coverUrl.toString()
+            Notification(requireContext()).notifyNotification(artist, title, coverURL)
+
         }
     }
 

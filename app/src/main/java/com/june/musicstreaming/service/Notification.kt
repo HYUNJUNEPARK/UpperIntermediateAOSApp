@@ -13,6 +13,7 @@ import androidx.core.app.NotificationCompat
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.june.musicstreaming.R
+import com.june.musicstreaming.exoPlayer.ExoPlayer.Companion.player
 import com.june.musicstreaming.service.Constant.Companion.CHANNEL_ID
 import com.june.musicstreaming.service.Constant.Companion.CHANNEL_NAME
 import com.june.musicstreaming.service.Constant.Companion.NOTIFICATION_ID
@@ -94,6 +95,15 @@ class Notification(private val context: Context) {
             })
         mContentView.setTextViewText(R.id.title, "$title")
         mContentView.setTextViewText(R.id.artist, "$artist")
+
+        if(player!!.isPlaying) {
+            mContentView.setImageViewResource(R.id.playControlImageView, R.drawable.ic_baseline_play_arrow_24)
+        }
+        else {
+            mContentView.setImageViewResource(R.id.playControlImageView, R.drawable.ic_baseline_pause_48)
+        }
+
+
     }
 
     private fun skipPrevImageViewClicked() {
