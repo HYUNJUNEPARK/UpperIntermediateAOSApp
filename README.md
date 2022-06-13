@@ -23,4 +23,12 @@ names.mapIndexed{ index, string ->
 
 
 
+
+
+Android Notification Load Image from Url Using Glide In Kotlin
 https://www.tutorialsbuzz.com/2021/02/android-notification-image-url-glide-setLargeIcon-bigPicture-kotlin.html
+
+android:usesCleartextTraffic="true"
+https://developside.tistory.com/85
+
+

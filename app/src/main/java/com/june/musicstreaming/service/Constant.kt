@@ -9,5 +9,14 @@ class Constant {
         const val NOTIFICATION_TITLE = "Music Player"
         const val NOTIFICATION_ID = 1
         const val NOTIFICATION_BUTTON_TITLE = "TEST"
+
+        const val SKIP_NEXT = "skip next"
+        const val SKIP_NEXT_REQ_CODE = 1
+
+        const val SKIP_PREV = "skip prev"
+        const val SKIP_PREV_REQ_CODE = 2
+
+        const val PLAY_CONTROL = "play by notification"
+        const val PLAY_CONTROL_REQ_CODE = 3
     }
 }

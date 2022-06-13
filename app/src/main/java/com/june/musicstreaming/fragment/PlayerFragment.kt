@@ -147,10 +147,8 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>(R.layout.fragment_pla
 
     private fun updateSeekBar() {
         val player = player ?: return
-
         val duration = if (player.duration >= 0) player.duration else 0
         val position = player.currentPosition
-
         updateSeekBarUI(duration, position)
 
         val state = player.playbackState
