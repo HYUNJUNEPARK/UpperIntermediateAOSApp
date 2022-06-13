@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/coverImage"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="5dp"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/coverImage"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/gray_97"
+        android:textSize="13dp"
+        tools:text="title" />
+
+    <TextView
+        android:id="@+id/artist"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_toRightOf="@id/coverImage"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/gray_97"
+        android:textSize="13dp"
+        tools:text="artist" />
+
+    <ImageView
+        android:id="@+id/skipPrevImageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_baseline_skip_previous_48"
+        android:layout_toLeftOf="@id/playControlImageView"/>
+
+
+    <ImageView
+        android:id="@+id/playControlImageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_toLeftOf="@id/skipNextImageView"
+        android:src="@drawable/ic_baseline_play_arrow_24"/>
+
+    <ImageView
+        android:id="@+id/skipNextImageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_baseline_skip_next_48"/>
+
+</RelativeLayout>

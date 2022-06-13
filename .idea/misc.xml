@@ -11,6 +11,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.30434782608695654" />
         <entry key="app/src/main/res/layout/fragment_player.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_music.xml" value="0.38229166666666664" />
+        <entry key="app/src/main/res/layout/notification.xml" value="0.33" />
       </map>
     </option>
   </component>
