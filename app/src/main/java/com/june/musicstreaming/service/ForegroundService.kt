@@ -13,8 +13,6 @@ import com.june.musicstreaming.service.Constant.Companion.SKIP_PREV
 
 class ForegroundService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
-        //TODO 리사이클러뷰 아이템 클릭 시 이 부분이 두번 실행되는 버그 있음 찾아서 수정할 것
         Notification(this).notifyNotification()
 
         //Button Action

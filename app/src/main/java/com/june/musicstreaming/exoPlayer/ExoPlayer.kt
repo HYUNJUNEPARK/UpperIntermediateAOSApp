@@ -12,16 +12,16 @@ import com.june.musicstreaming.service.ForegroundService
 
 class ExoPlayer {
     companion object {
+        //initialized in PlayFragment initView
         var player: SimpleExoPlayer? = null
     }
 
+    //initialized in PlayFragment initView
     fun initExoPlayer(context: Context) {
         player = SimpleExoPlayer.Builder(context).build()
     }
 
     fun play(item: MusicModel, context: Context) {
-        //NowPlayingMusicModel.nowPlayingMusic = item
-
         val url = item.streamUrl
         val dataSourceFactory = DefaultDataSourceFactory(context)
         val mediaItem = MediaItem.fromUri(Uri.parse(url))
@@ -32,7 +32,7 @@ class ExoPlayer {
         player?.prepare() //데이터 가져옴
         player?.play()
 
-        //start service and open notification
+        //음악을 재생할 때마다 서비스를 다시 실행 시킴(Notification 다시 보냄)
         val intent = Intent(context, ForegroundService::class.java)
         context.startService(intent)
     }

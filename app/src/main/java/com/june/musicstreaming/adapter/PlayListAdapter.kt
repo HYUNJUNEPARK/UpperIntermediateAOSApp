@@ -3,7 +3,6 @@ package com.june.musicstreaming.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startForegroundService
@@ -11,9 +10,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.june.musicstreaming.databinding.ItemMusicBinding
 import com.june.musicstreaming.exoPlayer.ExoPlayer
 import com.june.musicstreaming.model.MusicModel
-import com.june.musicstreaming.databinding.ItemMusicBinding
 import com.june.musicstreaming.model.NowPlayingMusicModel
 import com.june.musicstreaming.service.ForegroundService
 

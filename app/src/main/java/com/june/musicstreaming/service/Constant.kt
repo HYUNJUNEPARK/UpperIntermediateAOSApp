@@ -14,8 +14,5 @@ class Constant {
 
         const val PLAY_CONTROL = "play by notification"
         const val PLAY_CONTROL_REQ_CODE = 3
-
-        const val MAIN_ACTIVITY_INTENT_REQ_CODE = 4
-
     }
 }

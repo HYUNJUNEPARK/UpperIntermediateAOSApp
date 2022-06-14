@@ -8,18 +8,15 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.util.Log
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.june.musicstreaming.R
-import com.june.musicstreaming.activity.MainActivity
 import com.june.musicstreaming.exoPlayer.ExoPlayer.Companion.player
 import com.june.musicstreaming.model.NowPlayingMusicModel
 import com.june.musicstreaming.service.Constant.Companion.CHANNEL_ID
 import com.june.musicstreaming.service.Constant.Companion.CHANNEL_NAME
-import com.june.musicstreaming.service.Constant.Companion.MAIN_ACTIVITY_INTENT_REQ_CODE
 import com.june.musicstreaming.service.Constant.Companion.NOTIFICATION_ID
 import com.june.musicstreaming.service.Constant.Companion.PLAY_CONTROL
 import com.june.musicstreaming.service.Constant.Companion.PLAY_CONTROL_REQ_CODE
@@ -47,7 +44,6 @@ class Notification(private val context: Context) {
 
     private fun notification() {
         notificationUI()
-
         builder = notificationBuilder().apply {
             setSmallIcon(android.R.drawable.ic_notification_overlay)
             //User can not cancel notification
@@ -75,8 +71,7 @@ class Notification(private val context: Context) {
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                     mContentView.setImageViewBitmap(R.id.coverImage, resource)
                 }
-                override fun onLoadCleared(placeholder: Drawable?) {
-                }
+                override fun onLoadCleared(placeholder: Drawable?) {  }
             })
         mContentView.setTextViewText(R.id.title, "$title")
         mContentView.setTextViewText(R.id.artist, "$artist")
@@ -88,7 +83,6 @@ class Notification(private val context: Context) {
             mContentView.setImageViewResource(R.id.playControlImageView, R.drawable.ic_baseline_play_arrow_24)
         }
     }
-
 
     private fun notificationBuilder(): NotificationCompat.Builder {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
