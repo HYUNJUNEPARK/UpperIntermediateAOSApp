@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Music Player</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="play_time_format">%02d:%02d</string>
+</resources>
