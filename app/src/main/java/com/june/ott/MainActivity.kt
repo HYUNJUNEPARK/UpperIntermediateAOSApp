@@ -11,7 +11,7 @@ import com.june.ott.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
-    private var isGateringMotionAnimating: Boolean = false
+    private var isGatheringMotionAnimating: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,12 +19,12 @@ class MainActivity : AppCompatActivity() {
 
         binding.gatheringDigitalTingsMotionLayout.setTransitionListener(object : TransitionListener {
             override fun onTransitionStarted(motionLayout: MotionLayout?, startId: Int, endId: Int) {
-                isGateringMotionAnimating = true
+                isGatheringMotionAnimating = true
+            }
+            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
+                isGatheringMotionAnimating = false
             }
             override fun onTransitionChange(motionLayout: MotionLayout?, startId: Int, endId: Int, progress: Float) { }
-            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
-                isGateringMotionAnimating = false
-            }
             override fun onTransitionTrigger(motionLayout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) { }
         })
 
@@ -32,12 +32,14 @@ class MainActivity : AppCompatActivity() {
             val scrolledValue = binding.scrollView.scrollY
 
             if (scrolledValue > 150f.dpToPx(this@MainActivity).toInt()) {
-                if (isGateringMotionAnimating.not()) {
+                if (isGatheringMotionAnimating.not()) {
                     binding.gatheringDigitalTingsMotionLayout.transitionToEnd()
+                    binding.buttonShownMotionLayout.transitionToEnd()
                 }
             } else {
-                if (isGateringMotionAnimating.not()) {
+                if (isGatheringMotionAnimating.not()) {
                     binding.gatheringDigitalTingsMotionLayout.transitionToStart()
+                    binding.buttonShownMotionLayout.transitionToStart()
                 }
             }
         }
