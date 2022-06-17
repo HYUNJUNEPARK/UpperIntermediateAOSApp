@@ -1,22 +1,25 @@
 package com.june.ott
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.TypedValue
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
 import androidx.databinding.DataBindingUtil
+import com.june.ott.ExtensionFunction.Companion.dpToPx
 import com.june.ott.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
-    private var isGatheringMotionAnimating: Boolean = false
+    private var isGatheringMotionAnimating: Boolean = false //애니메이션 효과 실행 시 true 끝나면 false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        initScrollViewListeners()
+    }
+
+    private fun initScrollViewListeners() {
         binding.gatheringDigitalTingsMotionLayout.setTransitionListener(object : TransitionListener {
             override fun onTransitionStarted(motionLayout: MotionLayout?, startId: Int, endId: Int) {
                 isGatheringMotionAnimating = true
@@ -30,22 +33,18 @@ class MainActivity : AppCompatActivity() {
 
         binding.scrollView.viewTreeObserver.addOnScrollChangedListener {
             val scrolledValue = binding.scrollView.scrollY
-
             if (scrolledValue > 150f.dpToPx(this@MainActivity).toInt()) {
-                if (isGatheringMotionAnimating.not()) {
+                //스크롤 뷰가 특정 높이로 올라왔을 때
+                if (isGatheringMotionAnimating.not()) { //애니메이션 이펙트 off 상태-> 트랜지션 종료
                     binding.gatheringDigitalTingsMotionLayout.transitionToEnd()
                     binding.buttonShownMotionLayout.transitionToEnd()
                 }
             } else {
-                if (isGatheringMotionAnimating.not()) {
+                if (isGatheringMotionAnimating.not()) { //애니메이션 이펙트 off 상태 -> 트랜지션 시작 -> 이펙트 on
                     binding.gatheringDigitalTingsMotionLayout.transitionToStart()
                     binding.buttonShownMotionLayout.transitionToStart()
                 }
             }
         }
-
     }
 }
-
-fun Float.dpToPx(context: Context): Float =
-    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, context.resources.displayMetrics)
