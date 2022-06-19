@@ -1,12 +1,19 @@
 package com.june.ott
 
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
+import com.google.android.material.appbar.AppBarLayout
 import com.june.ott.ExtensionFunction.Companion.dpToPx
+import com.june.ott.ExtensionFunction.Companion.makeStatusBarTransparent
 import com.june.ott.databinding.ActivityMainBinding
+import kotlin.math.abs
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
@@ -16,7 +23,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        makeStatusBarTransparent()
+        initAppBar()
+        initInsetMargin()
+
         initScrollViewListeners()
+
     }
 
     private fun initScrollViewListeners() {
@@ -47,4 +59,49 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun initActionBar() = with(binding) {
+        toolbar.navigationIcon = null
+        toolbar.setContentInsetsAbsolute(0, 0)
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.let {
+            it.setHomeButtonEnabled(false)
+            it.setDisplayHomeAsUpEnabled(false)
+            it.setDisplayShowHomeEnabled(false)
+        }
+    }
+
+    private fun initInsetMargin() = with(binding) {
+        ViewCompat.setOnApplyWindowInsetsListener(coordinator) { v: View, insets: WindowInsetsCompat ->
+            val params = v.layoutParams as ViewGroup.MarginLayoutParams
+            params.bottomMargin = insets.systemWindowInsetBottom
+            toolbarContainer.layoutParams = (toolbarContainer.layoutParams as ViewGroup.MarginLayoutParams).apply {
+                setMargins(0, insets.systemWindowInsetTop, 0, 0)
+            }
+            collapsingToolbarContainer.layoutParams = (collapsingToolbarContainer.layoutParams as ViewGroup.MarginLayoutParams).apply {
+                setMargins(0, 0, 0, 0)
+            }
+
+            insets.consumeSystemWindowInsets()
+        }
+    }
+
+    private fun initAppBar() {
+        binding.appBar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            val topPadding = 300f.dpToPx(this)
+            val realAlphaScrollHeight = appBarLayout.measuredHeight - appBarLayout.totalScrollRange
+            val abstractOffset = abs(verticalOffset)
+
+            val realAlphaVerticalOffset = if (abstractOffset - topPadding < 0) 0f else abstractOffset - topPadding
+
+            if (abstractOffset < topPadding) {
+                binding.toolbarBackgroundView.alpha = 0f
+                return@OnOffsetChangedListener
+            }
+            val percentage = realAlphaVerticalOffset / realAlphaScrollHeight
+            binding.toolbarBackgroundView.alpha = 1 - (if (1 - percentage * 2 < 0) 0f else 1 - percentage * 2)
+        })
+        initActionBar()
+    }
+
 }
