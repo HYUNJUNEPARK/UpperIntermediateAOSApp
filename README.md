@@ -8,3 +8,7 @@
 fun Float.dpToPx(context: Context): Float =
     TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, context.resources.displayMetrics)
 ```
+
+
+app:layout_behavior="@string/appbar_scrolling_view_behavior"
+->동작 잘 받으려면 androidx.core.widget.NestedScrollView 사용

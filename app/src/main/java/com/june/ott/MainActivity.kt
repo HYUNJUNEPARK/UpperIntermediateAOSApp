@@ -21,18 +21,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         makeStatusBarTransparent()
         initAppBar()
         initInsetMargin()
-
         initScrollViewListeners()
-
     }
 
     private fun initScrollViewListeners() {
-        binding.gatheringDigitalTingsMotionLayout.setTransitionListener(object : TransitionListener {
+        binding.gatheringDigitalThingsMotionLayout.setTransitionListener(object : TransitionListener {
             override fun onTransitionStarted(motionLayout: MotionLayout?, startId: Int, endId: Int) {
                 isGatheringMotionAnimating = true
             }
@@ -48,26 +46,15 @@ class MainActivity : AppCompatActivity() {
             if (scrolledValue > 150f.dpToPx(this@MainActivity).toInt()) {
                 //스크롤 뷰가 특정 높이로 올라왔을 때
                 if (isGatheringMotionAnimating.not()) { //애니메이션 이펙트 off 상태-> 트랜지션 종료
-                    binding.gatheringDigitalTingsMotionLayout.transitionToEnd()
+                    binding.gatheringDigitalThingsMotionLayout.transitionToEnd()
                     binding.buttonShownMotionLayout.transitionToEnd()
                 }
             } else {
                 if (isGatheringMotionAnimating.not()) { //애니메이션 이펙트 off 상태 -> 트랜지션 시작 -> 이펙트 on
-                    binding.gatheringDigitalTingsMotionLayout.transitionToStart()
+                    binding.gatheringDigitalThingsMotionLayout.transitionToStart()
                     binding.buttonShownMotionLayout.transitionToStart()
                 }
             }
-        }
-    }
-
-    private fun initActionBar() = with(binding) {
-        toolbar.navigationIcon = null
-        toolbar.setContentInsetsAbsolute(0, 0)
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.let {
-            it.setHomeButtonEnabled(false)
-            it.setDisplayHomeAsUpEnabled(false)
-            it.setDisplayShowHomeEnabled(false)
         }
     }
 
@@ -81,7 +68,6 @@ class MainActivity : AppCompatActivity() {
             collapsingToolbarContainer.layoutParams = (collapsingToolbarContainer.layoutParams as ViewGroup.MarginLayoutParams).apply {
                 setMargins(0, 0, 0, 0)
             }
-
             insets.consumeSystemWindowInsets()
         }
     }
@@ -104,4 +90,14 @@ class MainActivity : AppCompatActivity() {
         initActionBar()
     }
 
+    private fun initActionBar() = with(binding) {
+        toolbar.navigationIcon = null
+        toolbar.setContentInsetsAbsolute(0, 0)
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.let {
+            it.setHomeButtonEnabled(false)
+            it.setDisplayHomeAsUpEnabled(false)
+            it.setDisplayShowHomeEnabled(false)
+        }
+    }
 }
