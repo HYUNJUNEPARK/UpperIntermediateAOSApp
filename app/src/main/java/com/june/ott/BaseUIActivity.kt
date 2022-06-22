@@ -13,7 +13,7 @@ import com.june.ott.ExtensionFunction.Companion.makeStatusBarTransparent
 import com.june.ott.databinding.ActivityMainBinding
 import kotlin.math.abs
 
-open class IntroUiActivity : AppCompatActivity() {
+open class BaseUIActivity : AppCompatActivity() {
     protected lateinit var binding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
