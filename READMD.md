@@ -20,3 +20,14 @@ buildConfigField "String", "GITHUB_CLIENT_SECRET", project.properties["GITHUB_CL
 
 
 GitRepositoryApp://github-auth
+
+
+
+```kotlin
+        <activity
+android:name=".SignInActivity"
+android:launchMode="singleTask"
+android:exported="true">
+```
+
+override fun onNewIntent(intent: Intent?) {
