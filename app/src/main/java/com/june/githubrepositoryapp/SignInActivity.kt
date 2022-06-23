@@ -36,8 +36,8 @@ class SignInActivity : AppCompatActivity(), CoroutineScope {
             .build()
 
         //현재화면에서 커스텀 tab 으로 이동할 수 있는 intent
-        CustomTabsIntent.Builder().build().also {
-            it.launchUrl(this, loginUri)
+        CustomTabsIntent.Builder().build().also { customTabsIntent ->
+            customTabsIntent.launchUrl(this, loginUri)
         }
     }
 
