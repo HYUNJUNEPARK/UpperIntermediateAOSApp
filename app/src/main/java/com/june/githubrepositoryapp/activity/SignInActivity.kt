@@ -1,4 +1,4 @@
-package com.june.githubrepositoryapp
+package com.june.githubrepositoryapp.activity
 
 import android.content.Intent
 import android.net.Uri
@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
+import com.june.githubrepositoryapp.BuildConfig
 import com.june.githubrepositoryapp.databinding.ActivitySignInBinding
 import com.june.githubrepositoryapp.retrofit.AuthTokenProvider
 import com.june.githubrepositoryapp.retrofit.RetrofitUtil
@@ -24,6 +25,12 @@ class SignInActivity : AppCompatActivity(), CoroutineScope {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        Log.d("testLog", "onCreate: ${authTokenProvider.token}")
+
+        if (checkAuthCodeExist()) {
+            launchMainActivity()
+        }
     }
 
     fun loginButtonClicked(v: View) {
@@ -39,6 +46,15 @@ class SignInActivity : AppCompatActivity(), CoroutineScope {
         CustomTabsIntent.Builder().build().also { customTabsIntent ->
             customTabsIntent.launchUrl(this, loginUri)
         }
+    }
+
+    private fun checkAuthCodeExist(): Boolean = authTokenProvider.token.isNullOrEmpty().not()
+
+    private fun launchMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK) //SignIn Activity 가 종료됨
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
     }
 
     //intent 를 받아서 여기서 처리
