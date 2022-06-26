@@ -56,3 +56,9 @@ android:launchMode="singleTask"
 override fun onNewIntent(intent: Intent?) {
 
 /////
+
+
+
+PreferenceManager getDefaultSharedPreferences deprecated in Android Q</br>
+https://stackoverflow.com/questions/56833657/preferencemanager-getdefaultsharedpreferences-deprecated-in-android-q</br>
+***implementation "androidx.preference:preference-ktx:1.1.1"***

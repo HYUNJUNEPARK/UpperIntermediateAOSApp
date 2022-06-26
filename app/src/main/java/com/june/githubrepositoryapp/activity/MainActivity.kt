@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + Job()
-    val repositoryDao by lazy { DataBaseProvider.provideDB(applicationContext).repositoryDao() }
+    private val repositoryDao by lazy { DataBaseProvider.provideDB(applicationContext).repositoryDao() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

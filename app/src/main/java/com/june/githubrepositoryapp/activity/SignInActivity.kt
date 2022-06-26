@@ -26,8 +26,7 @@ class SignInActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        Log.d("testLog", "onCreate: ${authTokenProvider.token}")
-
+        //TODO 자동 로그인 설정 ?
         if (checkAuthCodeExist()) {
             launchMainActivity()
         }

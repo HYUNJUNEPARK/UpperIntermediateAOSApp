@@ -6,7 +6,5 @@ import com.june.githubrepositoryapp.model.GithubRepoEntity
 
 @Database(entities = [GithubRepoEntity::class], version = 1)
 abstract class SimpleGithubDatabase : RoomDatabase() {
-
     abstract fun repositoryDao(): RepositoryDao
-
 }
