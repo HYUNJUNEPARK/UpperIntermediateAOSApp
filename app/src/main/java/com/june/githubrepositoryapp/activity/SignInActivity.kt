@@ -9,6 +9,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
 import com.june.githubrepositoryapp.BuildConfig
+import com.june.githubrepositoryapp.Constants.AUTO_SIGN_IN_OFF
+import com.june.githubrepositoryapp.Constants.AUTO_SIGN_IN_ON
+import com.june.githubrepositoryapp.autosigin.AutoSignInOptionProvider
 import com.june.githubrepositoryapp.databinding.ActivitySignInBinding
 import com.june.githubrepositoryapp.retrofit.AuthTokenProvider
 import com.june.githubrepositoryapp.retrofit.RetrofitUtil
@@ -18,7 +21,6 @@ import kotlin.coroutines.CoroutineContext
 class SignInActivity : AppCompatActivity(), CoroutineScope {
     private val binding by lazy { ActivitySignInBinding.inflate(layoutInflater) }
     private val authTokenProvider by lazy { AuthTokenProvider(this) }
-
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + Job()
 
@@ -26,8 +28,24 @@ class SignInActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        //TODO 자동 로그인 설정 ?
-        if (checkAuthCodeExist()) {
+        autoSignIn()
+        initAutoLoginSwitch()
+    }
+
+    private fun initAutoLoginSwitch() {
+        binding.autoLoginSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                AutoSignInOptionProvider(this).updateAutoSignInValue(AUTO_SIGN_IN_ON)
+            }
+            else {
+                AutoSignInOptionProvider(this).updateAutoSignInValue(AUTO_SIGN_IN_OFF)
+            }
+        }
+    }
+
+    private fun autoSignIn() {
+        val option = AutoSignInOptionProvider(this).option
+        if (option == AUTO_SIGN_IN_ON && checkAuthCodeExist()) {
             launchMainActivity()
         }
     }

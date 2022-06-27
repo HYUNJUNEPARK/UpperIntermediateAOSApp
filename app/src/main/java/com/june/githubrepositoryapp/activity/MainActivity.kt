@@ -5,8 +5,8 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.june.githubrepositoryapp.databinding.ActivityMainBinding
 import com.june.githubrepositoryapp.model.GithubOwner
-import com.june.githubrepositoryapp.model.GithubRepoEntity
-import com.june.githubrepositoryapp.room.DataBaseProvider
+import com.june.githubrepositoryapp.room.GithubRepoEntity
+import com.june.githubrepositoryapp.room.DatabaseProvider
 import kotlinx.coroutines.*
 import java.util.*
 import kotlin.coroutines.CoroutineContext
@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + Job()
-    private val repositoryDao by lazy { DataBaseProvider.provideDB(applicationContext).repositoryDao() }
+    private val repositoryDao by lazy { DatabaseProvider.provideDB(applicationContext).repositoryDao() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -17,12 +17,31 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
+    <TextView
+        android:id="@+id/autoLoginTextView"
+        android:text="자동 로그인"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintEnd_toStartOf="@id/autoLoginSwitch"
+        app:layout_constraintTop_toTopOf="@id/autoLoginSwitch"
+        app:layout_constraintBottom_toBottomOf="@id/autoLoginSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Switch
+        android:id="@+id/autoLoginSwitch"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/loginButton"
+        app:layout_constraintEnd_toEndOf="@id/loginButton"
+        android:layout_height="wrap_content"/>
+
     <Button
         android:id="@+id/loginButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="64dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="34dp"
         android:onClick="loginButtonClicked"
         android:text="Github Login"
         android:textStyle="bold"
@@ -35,7 +54,7 @@
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="34dp"
         android:progressTint="@color/black"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"

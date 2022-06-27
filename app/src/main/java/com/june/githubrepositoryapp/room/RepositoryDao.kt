@@ -1,11 +1,9 @@
 package com.june.githubrepositoryapp.room
 
 import androidx.room.*
-import com.june.githubrepositoryapp.model.GithubRepoEntity
 
 @Dao
 interface RepositoryDao {
-
     @Insert
     suspend fun insert(repo: GithubRepoEntity)
 
@@ -23,5 +21,4 @@ interface RepositoryDao {
 
     @Query("DELETE FROM githubrepository")
     suspend fun clearAll()
-
 }
