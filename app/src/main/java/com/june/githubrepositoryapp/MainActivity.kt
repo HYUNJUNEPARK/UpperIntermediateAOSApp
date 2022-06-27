@@ -1,4 +1,4 @@
-package com.june.githubrepositoryapp.activity
+package com.june.githubrepositoryapp
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +7,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.june.githubrepositoryapp.R
+import com.june.githubrepositoryapp.autosigin.SettingActivity
 import com.june.githubrepositoryapp.databinding.ActivityMainBinding
 import com.june.githubrepositoryapp.model.GithubOwner
 import com.june.githubrepositoryapp.room.GithubRepoEntity

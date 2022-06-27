@@ -5,13 +5,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import com.june.githubrepositoryapp.BuildConfig
 import com.june.githubrepositoryapp.Constants.AUTO_SIGN_IN_OFF
 import com.june.githubrepositoryapp.Constants.AUTO_SIGN_IN_ON
-import com.june.githubrepositoryapp.activity.MainActivity
+import com.june.githubrepositoryapp.MainActivity
 import com.june.githubrepositoryapp.databinding.ActivitySignInBinding
 import com.june.githubrepositoryapp.retrofit.AuthTokenProvider
 import com.june.githubrepositoryapp.retrofit.RetrofitUtil
@@ -33,7 +34,7 @@ class SignInActivity : AppCompatActivity(), CoroutineScope {
     }
 
     private fun initAutoLoginSwitch() {
-        binding.autoLoginSwitch.setOnCheckedChangeListener { _, isChecked ->
+        binding.autoLoginSwitch.setOnCheckedChangeListener { button, isChecked ->
             if (isChecked) {
                 AutoSignInOptionProvider(this).updateAutoSignInValue(AUTO_SIGN_IN_ON)
             }
@@ -70,24 +71,35 @@ class SignInActivity : AppCompatActivity(), CoroutineScope {
 
     private fun launchMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK) //SignIn Activity 가 종료됨
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK) //SignIn Activity 가 종료됨
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
+        finish()
     }
 
     //CustomTabsIntent 결과를 여기서 받아서 처리
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+
         intent?.data?.getQueryParameter("code")?.let { code ->
             launch(coroutineContext) {
                 showProgress()
                 accessToken(code)
                 dismissProgress()
             }
-            if(checkAuthCodeExist()) {
-                launchMainActivity()
-            }
+            //TODO 토큰을 받아온 후 MainActivity 를 열어주는 작업 필요
+            //아래 코드대로 한다면 SignActivity/MainActivity가 들다 꺼짐
+//            if(checkAuthCodeExist()) {
+//                launchMainActivity()
+
+//            }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+//        autoSignIn()
     }
 
     private suspend fun accessToken(code: String) = withContext(Dispatchers.IO) {

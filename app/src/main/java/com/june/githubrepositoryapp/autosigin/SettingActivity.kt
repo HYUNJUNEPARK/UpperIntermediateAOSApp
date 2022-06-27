@@ -1,4 +1,4 @@
-package com.june.githubrepositoryapp.activity
+package com.june.githubrepositoryapp.autosigin
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

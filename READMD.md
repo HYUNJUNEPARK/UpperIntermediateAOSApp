@@ -57,7 +57,8 @@ override fun onNewIntent(intent: Intent?) {
 
 /////
 
-
+//TODO study
+https://developer.android.com/topic/libraries/architecture/datastore?hl=ko
 
 PreferenceManager getDefaultSharedPreferences deprecated in Android Q</br>
 https://stackoverflow.com/questions/56833657/preferencemanager-getdefaultsharedpreferences-deprecated-in-android-q</br>
