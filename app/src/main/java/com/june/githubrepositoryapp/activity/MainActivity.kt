@@ -1,8 +1,13 @@
 package com.june.githubrepositoryapp.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.june.githubrepositoryapp.R
 import com.june.githubrepositoryapp.databinding.ActivityMainBinding
 import com.june.githubrepositoryapp.model.GithubOwner
 import com.june.githubrepositoryapp.room.GithubRepoEntity
@@ -28,6 +33,24 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 Log.e("testLog", "onCreate: ${githubRepositories.toString()}")
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.settingMenu -> {
+                val intent = Intent(this, SettingActivity::class.java)
+                startActivity(intent)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                return true
+            }
+        }
+        return false
     }
 
     private suspend fun addMockData() = withContext(Dispatchers.IO) {

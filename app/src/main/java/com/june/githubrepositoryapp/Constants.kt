@@ -7,12 +7,10 @@ object Constants {
 
     //SharedPreference
     const val PREFERENCE_NAME_KEY_AUTH_TOKEN = "auth_token"
-    const val PREFERENCE_NAME_AUTO_SIGN_IN = "auth_sign_in"
-    const val AUTO_SIGN_IN_ON = "on"
-    const val AUTO_SIGN_IN_OFF = "off"
+    const val PREFERENCE_NAME_AUTO_SIGN_IN = "auto_sign_in"
+    const val AUTO_SIGN_IN_ON = true
+    const val AUTO_SIGN_IN_OFF = false
 
     //LOCAL DB
     const val DB_NAME = "github_repository_app.db"
-
-
 }

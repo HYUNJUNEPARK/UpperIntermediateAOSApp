@@ -1,17 +1,17 @@
-package com.june.githubrepositoryapp.activity
+package com.june.githubrepositoryapp.autosigin
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import com.june.githubrepositoryapp.BuildConfig
 import com.june.githubrepositoryapp.Constants.AUTO_SIGN_IN_OFF
 import com.june.githubrepositoryapp.Constants.AUTO_SIGN_IN_ON
-import com.june.githubrepositoryapp.autosigin.AutoSignInOptionProvider
+import com.june.githubrepositoryapp.activity.MainActivity
 import com.june.githubrepositoryapp.databinding.ActivitySignInBinding
 import com.june.githubrepositoryapp.retrofit.AuthTokenProvider
 import com.june.githubrepositoryapp.retrofit.RetrofitUtil
@@ -44,8 +44,9 @@ class SignInActivity : AppCompatActivity(), CoroutineScope {
     }
 
     private fun autoSignIn() {
-        val option = AutoSignInOptionProvider(this).option
-        if (option == AUTO_SIGN_IN_ON && checkAuthCodeExist()) {
+        val signInOption = AutoSignInOptionProvider(this).option
+
+        if (signInOption!! && checkAuthCodeExist()) {
             launchMainActivity()
         }
     }
@@ -74,7 +75,7 @@ class SignInActivity : AppCompatActivity(), CoroutineScope {
         startActivity(intent)
     }
 
-    //intent 를 받아서 여기서 처리
+    //CustomTabsIntent 결과를 여기서 받아서 처리
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         intent?.data?.getQueryParameter("code")?.let { code ->
@@ -82,6 +83,9 @@ class SignInActivity : AppCompatActivity(), CoroutineScope {
                 showProgress()
                 accessToken(code)
                 dismissProgress()
+            }
+            if(checkAuthCodeExist()) {
+                launchMainActivity()
             }
         }
     }

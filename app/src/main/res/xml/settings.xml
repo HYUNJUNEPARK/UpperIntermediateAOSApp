@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        app:key="sign_in_option"
+        app:title="로그인 옵션">
+        <SwitchPreferenceCompat
+            app:key="auto_sign_in"
+            app:title="자동 로그인" />
+    </PreferenceCategory>
+</PreferenceScreen>

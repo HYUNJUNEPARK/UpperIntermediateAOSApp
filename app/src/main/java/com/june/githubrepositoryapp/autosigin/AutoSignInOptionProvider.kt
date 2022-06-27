@@ -8,13 +8,13 @@ import com.june.githubrepositoryapp.Constants.PREFERENCE_NAME_AUTO_SIGN_IN
 class AutoSignInOptionProvider(context: Context) {
     private val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
 
-    fun updateAutoSignInValue(option: String) {
+    fun updateAutoSignInValue(option: Boolean) {
         sharedPref.edit().run {
-            putString(PREFERENCE_NAME_AUTO_SIGN_IN, option)
+            putBoolean(PREFERENCE_NAME_AUTO_SIGN_IN, option)
             apply()
         }
     }
 
-    val option: String?
-        get() = sharedPref.getString(PREFERENCE_NAME_AUTO_SIGN_IN, AUTO_SIGN_IN_OFF)
+    val option: Boolean?
+        get() = sharedPref.getBoolean(PREFERENCE_NAME_AUTO_SIGN_IN, false)
 }
