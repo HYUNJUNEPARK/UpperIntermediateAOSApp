@@ -18,13 +18,15 @@ import kotlin.coroutines.CoroutineContext
 
 class MainActivity : AppCompatActivity(), CoroutineScope {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    private val repositoryDao by lazy { DatabaseProvider.provideDB(applicationContext).repositoryDao() }
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + Job()
-    private val repositoryDao by lazy { DatabaseProvider.provideDB(applicationContext).repositoryDao() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        initViews()
 
         launch {
             addMockData()
@@ -32,6 +34,14 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             withContext(coroutineContext) {
                 Log.e("testLog", "onCreate: ${githubRepositories.toString()}")
             }
+        }
+    }
+
+    private fun initViews() = with(binding) {
+        searchButton.setOnClickListener {
+            startActivity(
+                Intent(this@MainActivity, SearchActivity::class.java)
+            )
         }
     }
 
@@ -45,8 +55,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         when(item.itemId) {
             R.id.settingMenu -> {
                 val intent = Intent(this, SettingActivity::class.java)
-                startActivity(intent)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
                 return true
             }
         }

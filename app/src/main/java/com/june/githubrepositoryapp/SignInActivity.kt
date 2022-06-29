@@ -1,18 +1,16 @@
-package com.june.githubrepositoryapp.autosigin
+package com.june.githubrepositoryapp
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
-import com.june.githubrepositoryapp.BuildConfig
 import com.june.githubrepositoryapp.Constants.AUTO_SIGN_IN_OFF
 import com.june.githubrepositoryapp.Constants.AUTO_SIGN_IN_ON
-import com.june.githubrepositoryapp.MainActivity
+import com.june.githubrepositoryapp.autosigin.AutoSignInOptionProvider
 import com.june.githubrepositoryapp.databinding.ActivitySignInBinding
 import com.june.githubrepositoryapp.retrofit.AuthTokenProvider
 import com.june.githubrepositoryapp.retrofit.RetrofitUtil
@@ -34,18 +32,22 @@ class SignInActivity : AppCompatActivity(), CoroutineScope {
     }
 
     private fun initAutoLoginSwitch() {
-        binding.autoLoginSwitch.setOnCheckedChangeListener { button, isChecked ->
+        binding.autoLoginSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 AutoSignInOptionProvider(this).updateAutoSignInValue(AUTO_SIGN_IN_ON)
+
             }
             else {
                 AutoSignInOptionProvider(this).updateAutoSignInValue(AUTO_SIGN_IN_OFF)
+
             }
         }
     }
 
     private fun autoSignIn() {
         val signInOption = AutoSignInOptionProvider(this).option
+
+        Log.d("testLog", "autoSignIn: $signInOption // ${checkAuthCodeExist()}")
 
         if (signInOption!! && checkAuthCodeExist()) {
             launchMainActivity()
@@ -65,13 +67,18 @@ class SignInActivity : AppCompatActivity(), CoroutineScope {
         CustomTabsIntent.Builder().build().also { customTabsIntent ->
             customTabsIntent.launchUrl(this, loginUri)
         }
+
+        if (checkAuthCodeExist()) {
+
+        }
+
     }
 
     private fun checkAuthCodeExist(): Boolean = authTokenProvider.token.isNullOrEmpty().not()
 
     private fun launchMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK) //SignIn Activity 가 종료됨
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK) //SignIn Activity 가 종료됨
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
         finish()
@@ -88,18 +95,21 @@ class SignInActivity : AppCompatActivity(), CoroutineScope {
                 dismissProgress()
             }
             //TODO 토큰을 받아온 후 MainActivity 를 열어주는 작업 필요
-            //아래 코드대로 한다면 SignActivity/MainActivity가 들다 꺼짐
-//            if(checkAuthCodeExist()) {
-//                launchMainActivity()
+            //아래 코드대로 한다면 SignActivity/MainActivity 가 들다 꺼짐
+            if(checkAuthCodeExist()) {
+                launchMainActivity()
+            }
 
-//            }
         }
     }
 
     override fun onResume() {
         super.onResume()
+        //TODO 자동로그인을 해제하면 토큰을 비워주는 작업을 해야함
+        Log.d("testLog", "onResume: ")
 
-//        autoSignIn()
+
+        autoSignIn()
     }
 
     private suspend fun accessToken(code: String) = withContext(Dispatchers.IO) {

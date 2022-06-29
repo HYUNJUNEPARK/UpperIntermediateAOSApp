@@ -16,10 +16,13 @@
         android:theme="@style/Theme.GithubRepositoryApp"
         tools:targetApi="31">
         <activity
+            android:name=".SearchActivity"
+            android:exported="false" />
+        <activity
             android:name=".autosigin.SettingActivity"
             android:exported="false" />
         <activity
-            android:name=".autosigin.SignInActivity"
+            android:name=".SignInActivity"
             android:exported="true"
             android:launchMode="singleTask">
             <intent-filter>
@@ -40,7 +43,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
     </application>
 
 </manifest>

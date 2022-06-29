@@ -6,9 +6,12 @@
         <entry key="app/src/main/res/drawable-v24/ic_baseline_settings_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_circle.xml" value="0.1445" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_search.xml" value="0.38333333333333336" />
         <entry key="app/src/main/res/layout/activity_setting.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/content_search.xml" value="0.38333333333333336" />
         <entry key="app/src/main/res/layout/fragment_setting.xml" value="0.1856710393541877" />
+        <entry key="app/src/main/res/layout/viewholder_repository_item.xml" value="0.38333333333333336" />
         <entry key="app/src/main/res/menu/menu.xml" value="0.16" />
         <entry key="app/src/main/res/xml/settings.xml" value="0.13872832369942195" />
       </map>
