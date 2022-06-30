@@ -5,21 +5,17 @@ import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import com.june.githubrepositoryapp.databinding.ViewholderRepositoryItemBinding
+import com.june.githubrepositoryapp.extensions.loadCenterInside
 //import com.june.githubrepositoryapp.loadCenterInside
 import com.june.githubrepositoryapp.room.GithubRepoEntity
 
 class RepositoryRecyclerAdapter : RecyclerView.Adapter<RepositoryRecyclerAdapter.RepositoryItemViewHolder>() {
-
     private var repositoryList: List<GithubRepoEntity> = listOf()
     private lateinit var repositoryClickListener: (GithubRepoEntity) -> Unit
 
-    inner class RepositoryItemViewHolder(
-        private val binding: ViewholderRepositoryItemBinding,
-        val searchResultClickListener: (GithubRepoEntity) -> Unit
-    ) : RecyclerView.ViewHolder(binding.root) {
-
+    inner class RepositoryItemViewHolder(private val binding: ViewholderRepositoryItemBinding, val searchResultClickListener: (GithubRepoEntity) -> Unit) : RecyclerView.ViewHolder(binding.root) {
         fun bindData(data: GithubRepoEntity) = with(binding) {
-            //ownerProfileImageView.loadCenterInside(data.owner.avatarUrl, 24f)
+            ownerProfileImageView.loadCenterInside(data.owner.avatarUrl, 24f)
             ownerNameTextView.text = data.owner.login
             nameTextView.text = data.fullName
             subtextTextView.text = data.description
@@ -38,7 +34,6 @@ class RepositoryRecyclerAdapter : RecyclerView.Adapter<RepositoryRecyclerAdapter
                 searchResultClickListener(data)
             }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryItemViewHolder {

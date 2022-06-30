@@ -1,4 +1,4 @@
-package com.june.githubrepositoryapp
+package com.june.githubrepositoryapp.activity
 
 import android.content.Intent
 import android.net.Uri
@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
+import com.june.githubrepositoryapp.BuildConfig
 import com.june.githubrepositoryapp.Constants.AUTO_SIGN_IN_OFF
 import com.june.githubrepositoryapp.Constants.AUTO_SIGN_IN_ON
 import com.june.githubrepositoryapp.autosigin.AutoSignInOptionProvider
@@ -46,8 +47,6 @@ class SignInActivity : AppCompatActivity(), CoroutineScope {
 
     private fun autoSignIn() {
         val signInOption = AutoSignInOptionProvider(this).option
-
-        Log.d("testLog", "autoSignIn: $signInOption // ${checkAuthCodeExist()}")
 
         if (signInOption!! && checkAuthCodeExist()) {
             launchMainActivity()
@@ -106,8 +105,6 @@ class SignInActivity : AppCompatActivity(), CoroutineScope {
     override fun onResume() {
         super.onResume()
         //TODO 자동로그인을 해제하면 토큰을 비워주는 작업을 해야함
-        Log.d("testLog", "onResume: ")
-
 
         autoSignIn()
     }

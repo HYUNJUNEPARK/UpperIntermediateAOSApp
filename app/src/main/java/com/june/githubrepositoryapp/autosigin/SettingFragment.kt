@@ -9,7 +9,7 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import com.june.githubrepositoryapp.Constants.PREFERENCE_NAME_AUTO_SIGN_IN
 import com.june.githubrepositoryapp.R
-import com.june.githubrepositoryapp.SignInActivity
+import com.june.githubrepositoryapp.activity.SignInActivity
 import com.june.githubrepositoryapp.retrofit.AuthTokenProvider
 
 class SettingFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {

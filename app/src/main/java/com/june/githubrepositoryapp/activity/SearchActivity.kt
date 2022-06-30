@@ -1,4 +1,4 @@
-package com.june.githubrepositoryapp
+package com.june.githubrepositoryapp.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -38,7 +38,8 @@ class SearchActivity : AppCompatActivity(), CoroutineScope {
 
     private fun bindViews() = with(binding) {
         searchButton.setOnClickListener {
-            searchKeyword(searchBarInputView.text.toString())
+            val searchKeyword = searchBarInputView.text.toString()
+            searchKeyword(searchKeyword)
         }
     }
 
@@ -49,7 +50,7 @@ class SearchActivity : AppCompatActivity(), CoroutineScope {
             if (response.isSuccessful) {
                 val body = response.body()
                 withContext(coroutineContext) {
-                    Log.d("testLog", "${body.toString()}")
+                    Log.e("testLog", "${body.toString()}")
                 }
             }
         }

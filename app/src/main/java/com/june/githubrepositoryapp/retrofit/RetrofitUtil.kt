@@ -3,7 +3,8 @@ package com.june.githubrepositoryapp.retrofit
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import com.june.githubrepositoryapp.BuildConfig
-import com.june.githubrepositoryapp.Constants
+import com.june.githubrepositoryapp.Constants.GITHUB_BASE_API_URL
+import com.june.githubrepositoryapp.Constants.GITHUB_BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -15,7 +16,7 @@ object RetrofitUtil {
 
     private fun getGithubAuthRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(Constants.GITHUB_URL)
+            .baseUrl(GITHUB_BASE_URL)
             .addConverterFactory(
                 GsonConverterFactory.create(
                     GsonBuilder()
@@ -31,7 +32,7 @@ object RetrofitUtil {
 
     private fun getGithubRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(Constants.GITHUB_API_URL)
+            .baseUrl(GITHUB_BASE_API_URL)
             .addConverterFactory(
                 GsonConverterFactory.create(
                     GsonBuilder()
