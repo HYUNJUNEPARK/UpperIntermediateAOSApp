@@ -3,10 +3,12 @@ package com.june.githubrepositoryapp.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.core.view.isGone
 import com.june.githubrepositoryapp.adapter.RepositoryRecyclerAdapter
 import com.june.githubrepositoryapp.databinding.ActivitySearchBinding
 import com.june.githubrepositoryapp.retrofit.RetrofitUtil
+import com.june.githubrepositoryapp.room.GithubRepoEntity
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -49,10 +51,16 @@ class SearchActivity : AppCompatActivity(), CoroutineScope {
 
             if (response.isSuccessful) {
                 val body = response.body()
-                withContext(coroutineContext) {
-                    Log.e("testLog", "${body.toString()}")
+                withContext(Dispatchers.Main) {
+                    setData(body!!.items)
                 }
             }
+        }
+    }
+
+    private fun setData(items: List<GithubRepoEntity>) {
+        adapter.setSearchResultList(items) {
+            Toast.makeText(this, "Clicked : $it", Toast.LENGTH_SHORT).show()
         }
     }
 }
