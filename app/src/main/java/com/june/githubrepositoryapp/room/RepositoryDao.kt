@@ -6,20 +6,20 @@ import com.june.githubrepositoryapp.Constants.ROOM_TABLE_NAME
 @Dao
 interface RepositoryDao {
     @Insert
-    suspend fun insert(repo: GithubRepoEntity)
+    fun insert(repo: GithubRepoEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(repoList: List<GithubRepoEntity>)
+    fun insertAll(repoList: List<GithubRepoEntity>)
 
-    @Query("SELECT * FROM $ROOM_TABLE_NAME")
-    suspend fun getHistory(): List<GithubRepoEntity>
+    @Query("SELECT * FROM githubrepository")
+    fun getHistory(): List<GithubRepoEntity>
 
-    @Query("SELECT * FROM $ROOM_TABLE_NAME WHERE fullName = :repoName")
-    suspend fun getRepository(repoName: String): GithubRepoEntity?
+    @Query("SELECT * FROM githubrepository WHERE fullName = :repoName")
+    fun getRepository(repoName: String): GithubRepoEntity?
 
-    @Query("DELETE FROM $ROOM_TABLE_NAME WHERE fullName = :repoName")
-    suspend fun remove(repoName: String)
+    @Query("DELETE FROM  githubrepository WHERE fullName = :repoName")
+    fun remove(repoName: String)
 
-    @Query("DELETE FROM $ROOM_TABLE_NAME")
-    suspend fun clearAll()
+    @Query("DELETE FROM githubrepository")
+    fun clearAll()
 }

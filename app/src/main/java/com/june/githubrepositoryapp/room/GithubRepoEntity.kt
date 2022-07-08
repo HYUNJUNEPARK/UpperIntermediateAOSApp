@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.june.githubrepositoryapp.Constants.ROOM_TABLE_NAME
 import com.june.githubrepositoryapp.model.GithubOwner
 
-@Entity(tableName = ROOM_TABLE_NAME)
+@Entity(tableName = "GithubRepository")
 data class GithubRepoEntity(
     val name: String,
     @PrimaryKey
