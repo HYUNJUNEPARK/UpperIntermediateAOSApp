@@ -17,7 +17,7 @@ import kotlin.coroutines.CoroutineContext
 
 class MainActivity : AppCompatActivity(), CoroutineScope {
     private lateinit var binding: ActivityMainBinding
-    private val repositoryDao by lazy { DatabaseProvider.provideDB(applicationContext).repositoryDao() }
+    private val repositoryDao by lazy { DatabaseProvider.provideDB(applicationContext).searchHistoryDao() }
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + Job()
 
