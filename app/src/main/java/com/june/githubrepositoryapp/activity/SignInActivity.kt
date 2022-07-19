@@ -36,7 +36,6 @@ class SignInActivity : AppCompatActivity(), CoroutineScope {
         binding.autoLoginSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 AutoSignInOptionProvider(this).updateAutoSignInValue(AUTO_SIGN_IN_ON)
-
             }
             else {
                 AutoSignInOptionProvider(this).updateAutoSignInValue(AUTO_SIGN_IN_OFF)

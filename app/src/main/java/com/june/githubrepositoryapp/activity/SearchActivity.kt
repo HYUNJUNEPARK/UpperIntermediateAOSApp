@@ -3,8 +3,6 @@ package com.june.githubrepositoryapp.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.core.view.isGone
 import com.june.githubrepositoryapp.adapter.RepositoryRecyclerAdapter
 import com.june.githubrepositoryapp.databinding.ActivitySearchBinding
@@ -29,7 +27,7 @@ class SearchActivity : AppCompatActivity(), CoroutineScope {
         bindViews()
     }
 
-    private fun initAdapter() = with(binding) {
+    private fun initAdapter() {
         adapter = RepositoryRecyclerAdapter()
     }
 
