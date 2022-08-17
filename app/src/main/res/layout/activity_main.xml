@@ -10,6 +10,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         tools:context=".MainActivity">
 
 
@@ -34,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="예기치 못한 문제가 발생했습니다.\n잠시 후 다시 시도해주세요."
+                    android:text="@string/error_msg"
                     android:visibility="gone"
                     tools:ignore="HardcodedText" />
 
@@ -70,7 +71,7 @@
                         app:layout_constraintTop_toBottomOf="@id/measuringStationNameTextView"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        tools:text="매우 나쁨" />
+                        tools:text="@string/air_state_good" />
 
                     <TextView
                         android:id="@+id/totalGradleEmojiTextView"
@@ -198,7 +199,7 @@
                         android:drawablePadding="6dp"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="6dp"
-                        android:text="자료 출처: 환경부/한국환경공단\n주의 사항: 해당 기관이 제공하는 자료는 “인증을 받지 않은 실시간 자료” 이므로 자료 오류 및 표출방식에 따라 값이 다를 수 있음"
+                        android:text="@string/res"
                         android:textColor="@color/white"
                         android:textSize="10sp"
                         app:layout_constraintStart_toStartOf="parent"
