@@ -10,12 +10,24 @@
 ---
 
 API 호출 구조</br>
-Android -(경도/위도)-> Kakao developers -(TM 좌표 변환)-> 공공데이터포털 -(측정소명)-> 공공데이터포털 -(대기오염정보)-> Android</br>
+Android -(경도/위도)-> Kakao developers -(TM 좌표 변환)-> 공공데이터포털</br>
+-(측정소명)-> 공공데이터포털 -(대기오염정보)-> Android</br>
 
-><a id = "content1">**1. content1**</a></br>
+><a id = "content1">**1. Location**</a></br>
 
-LocationManager
--위치 정보
+위치 정보 엑세스 권한 요청은 Foreground/Background 가 다름
+
+FusedLocationProviderClient
+-LocationManager 보다 사용이 권장됨
+-Google Play services Location 에서 위치정보를 가져오기 때문에 완성도를 높히기 위해서는 앱에 Google Play services 가 있는 지 확인하는 기능이 필요함
+(기기 환경에 따라서 해당 앱이 안깔려 있는 경우가 있기 때문)
+`implementation 'com.google.android.gms:play-services-location:20.0.0'`
+
+
+
+
+
+
 
 <br></br>
 <br></br>
@@ -57,3 +69,9 @@ https://developers.kakao.com/docs/latest/ko/local/dev-guide#trans-coord</br>
 
 aop-part4-chapter06</br>
 https://github.com/Fastcampus-Android-Lecture-Project-2021/aop-part4-chapter06</br>
+
+위치 정보 액세스 권한 요청</br>
+https://developer.android.com/training/location/permissions</br>
+
+Google Play services document</br>
+https://developers.google.com/android/reference/packages</br>
