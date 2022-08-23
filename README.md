@@ -9,7 +9,7 @@
 * <a href = "#ref">참고링크</a>
 ---
 
-dataBinding / 
+dataBinding / retrofit / gson / loggin / coroutine / 
 
 
 API 호출 구조</br>
@@ -43,7 +43,17 @@ FusedLocationProviderClient
 <br></br>
 <br></br>
 
+
+
+
 ><a id = "content3">**3. content3**</a></br>
+
+JSON -> Kotlin Data Class</br>
+1. plugins 에서 JSON to Kotlin Class 설치</br>
+2. 코틀린 데이터 클래스를 생성하기 원하는 패키지 우클릭</br>
+3. New -> Kotlin data class File from Json</br>
+4. 서버에서 오는 response 복사 후 필드에 붙여넣기</br>
+5. Advanced -> [Property] val, Nullable 세팅으로 되어 있는지 확인 // [Annotation] Gson 확인</br>
 
 <br></br>
 <br></br>

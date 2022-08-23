@@ -18,7 +18,7 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.june.myapplication.databinding.ActivityMainBinding
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
-
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -138,7 +138,6 @@ class MainActivity : AppCompatActivity() {
     * fusedLocationProviderClient
     *기기 위치 정보를 가져오는 여러 메서드를 제공
 
-
     *a) getLastLocation() :
     *위치 추정치를 더 빠르게 가져오고 앱에서 비롯될 수 있는 배터리 사용량을 최소화합니다.
     *그러나 최근에 다른 클라이언트가 적극적으로 위치를 사용하지 않은 경우 위치 정보가 최신이 아닐 수 있습니다.
@@ -160,7 +159,9 @@ class MainActivity : AppCompatActivity() {
                 cancellationTokenSource!!.token
             ).addOnSuccessListener { location ->
                 Log.d("testLog", "location : ${location.latitude}")
+                scope.launch { //코루틴 실행
 
+                }
             }.addOnFailureListener { e ->
 
             }
