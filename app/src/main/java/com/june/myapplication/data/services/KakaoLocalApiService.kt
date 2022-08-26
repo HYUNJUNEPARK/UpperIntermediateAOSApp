@@ -17,10 +17,15 @@ import retrofit2.http.Query
  * Authorization: KakaoAK ${REST_API_KEY}
  * b)Parameter
  * output_coord: String : 변환할 좌표계
+ *
+ *
  */
 interface KakaoLocalApiService {
+    /**
+     *
+     */
     @Headers("Authorization: KaKaoAK ${BuildConfig.KAKAO_API_KEY}")
-    @GET("v2/local/geo/coord2address.jason?=output_coord=TM")
+    @GET("v2/local/geo/transcoord.json?output_coord=TM")
     suspend fun getTmCoordinates(
         @Query("x") longitude: Double,
         @Query("y") latitude: Double

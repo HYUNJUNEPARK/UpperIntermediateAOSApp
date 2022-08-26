@@ -9,7 +9,7 @@
 * <a href = "#ref">참고링크</a>
 ---
 
-dataBinding / retrofit / gson / loggin / coroutine / 
+dataBinding / retrofit / okhttp / gson / loggin / coroutine / 
 
 
 API 호출 구조</br>
@@ -20,13 +20,11 @@ Android -(경도/위도)-> Kakao developers -(TM 좌표 변환)-> 공공데이�
 
 위치 정보 엑세스 권한 요청은 Foreground/Background 가 다름
 
-FusedLocationProviderClient
--LocationManager 보다 사용이 권장됨
--Google Play services Location 에서 위치정보를 가져오기 때문에 완성도를 높히기 위해서는 앱에 Google Play services 가 있는 지 확인하는 기능이 필요함
-(기기 환경에 따라서 해당 앱이 안깔려 있는 경우가 있기 때문)
-`implementation 'com.google.android.gms:play-services-location:20.0.0'`
-
-
+FusedLocationProviderClient</br>
+-LocationManager 보다 사용이 권장됨</br>
+-Google Play services Location 에서 위치정보를 가져오기 때문에 완성도를 높히기 위해서는 앱에 Google Play services 가 있는 지 확인하는 기능이 필요함</br>
+(기기 환경에 따라서 해당 앱이 안깔려 있는 경우가 있기 때문)</br>
+`implementation 'com.google.android.gms:play-services-location:20.0.0'`</br>
 
 
 
@@ -37,6 +35,9 @@ FusedLocationProviderClient
 
 ><a id = "content2">**2. content2**</a></br>
 
+okHttp</br>
+-REST API, HTTP 통신을 간편하게 구현할 수 있또록 다양한 기능(REST 호출 전송, HTTP 기반의 요청, 응답)을 제공해주는 자바 라이브러리</br>
+-Retrofit 라이브러리의 베이스가 됨</br>
 
 
 

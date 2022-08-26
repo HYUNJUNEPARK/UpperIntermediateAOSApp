@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
+import com.june.myapplication.data.Repository
 import com.june.myapplication.databinding.ActivityMainBinding
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
@@ -44,6 +46,7 @@ class MainActivity : AppCompatActivity() {
     //TODO 앱 최초 실행 시 권한을 '허용 안함' 두 번 실행하면 다음 부터는 권한 메시지를 띄우지 않고 앱이 종료되는 문제가 있음
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
         // ACCESS_COARSE_LOCATION : 도시 Block 단위의 정밀도의 위치 정보를 얻을 수 있음
         // ACCESS_FINE_LOCATION : ACCESS_COARSE_LOCATION 보다 더 정밀한 위치 정보를 얻을 수 있음
         val isLocationPermissionGranted: Boolean =
@@ -157,13 +160,16 @@ class MainActivity : AppCompatActivity() {
             .getCurrentLocation(
                 Priority.PRIORITY_HIGH_ACCURACY,
                 cancellationTokenSource!!.token
-            ).addOnSuccessListener { location ->
-                Log.d("testLog", "location : ${location.latitude}")
-                scope.launch { //코루틴 실행
-
+            )
+            .addOnSuccessListener { location ->
+                scope.launch {
+                    val monitoringStation = Repository.getNearbyMonitoringStation(location.latitude, location.longitude)
+                    //Log.d(TAG, "monitoringStation: ${monitoringStation}")
                 }
-            }.addOnFailureListener { e ->
-
+            }
+            //사용자의 위저 데이터를 가져오지 못한 경우
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Exception : $e", Toast.LENGTH_SHORT).show()
             }
     }
 //[END Location]
@@ -176,5 +182,6 @@ class MainActivity : AppCompatActivity() {
     companion object {
         const val REQUEST_ACCESS_LOCATION_PERMISSIONS = 100
         const val REQUEST_BACKGROUND_ACCESS_LOCATION_PERMISSIONS = 101
+        const val TAG = "testLog"
     }
 }
