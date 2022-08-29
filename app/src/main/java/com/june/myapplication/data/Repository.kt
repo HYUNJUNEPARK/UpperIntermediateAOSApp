@@ -13,18 +13,17 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
 object Repository {
+    /**
+     *
+     */
     suspend fun getNearbyMonitoringStation(latitude: Double, longitude: Double):MonitoringStation? {
-        Log.d(TAG, "getNearbyMonitoringStation: $latitude\n$longitude")
-
         val tmCoordinates = kakaoLocalApiService
             .getTmCoordinates(longitude, latitude)
             .body()
             ?.documents
             ?.firstOrNull()
-        //TODO 여기서 문제가 있음
         val tmX = tmCoordinates?.x
         val tmY = tmCoordinates?.y
-        //Log.d(TAG, "tmx : $tmX // $tmY")
 
         return airKoreaApiService
             .getNearbyMonitoringStation(tmX!!, tmY!!)
@@ -35,6 +34,9 @@ object Repository {
             ?.minByOrNull { it.tm ?: Double.MAX_VALUE } //선택한 요소 중 가장 작은 값은 반환
     }
 
+    /**
+     *
+     */
     private val kakaoLocalApiService: KakaoLocalApiService by lazy {
         Retrofit.Builder()
             .baseUrl(Url.KAKAO_API_BASE_URL)
@@ -44,6 +46,9 @@ object Repository {
             .create()
     }
 
+    /**
+     *
+     */
     private val airKoreaApiService: AirKoreaApiService by lazy {
         Retrofit.Builder()
             .baseUrl(Url.AIR_KOREA_API_BASE_URL)
@@ -53,6 +58,9 @@ object Repository {
             .create()
     }
 
+    /**
+     *
+     */
     private fun buildHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(

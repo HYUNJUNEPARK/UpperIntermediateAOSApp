@@ -11,10 +11,18 @@
 
 dataBinding / retrofit / okhttp / gson / loggin / coroutine / 
 
-
 API 호출 구조</br>
 Android (경도/위도) -> Kakao developers (TM 좌표 변환)-> 공공데이터포털 (측정소명)</br>
 -> 공공데이터포털 (대기오염정보)-> Android</br>
+
+
+Foreground/Background
+okHttp
+Base Url 주소가 http 인 경우
+api 세부 설명
+
+
+
 
 ><a id = "content1">**1. Location**</a></br>
 
