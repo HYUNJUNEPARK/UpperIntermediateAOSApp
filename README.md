@@ -13,8 +13,8 @@ dataBinding / retrofit / okhttp / gson / loggin / coroutine /
 
 
 API 호출 구조</br>
-Android -(경도/위도)-> Kakao developers -(TM 좌표 변환)-> 공공데이터포털</br>
--(측정소명)-> 공공데이터포털 -(대기오염정보)-> Android</br>
+Android (경도/위도) -> Kakao developers (TM 좌표 변환)-> 공공데이터포털 (측정소명)</br>
+-> 공공데이터포털 (대기오염정보)-> Android</br>
 
 ><a id = "content1">**1. Location**</a></br>
 

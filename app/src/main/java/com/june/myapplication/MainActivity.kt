@@ -164,7 +164,7 @@ class MainActivity : AppCompatActivity() {
             .addOnSuccessListener { location ->
                 scope.launch {
                     val monitoringStation = Repository.getNearbyMonitoringStation(location.latitude, location.longitude)
-                    //Log.d(TAG, "monitoringStation: ${monitoringStation}")
+                    Log.d(TAG, "monitoringStation: ${monitoringStation}")
                 }
             }
             //사용자의 위저 데이터를 가져오지 못한 경우

@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
 object Repository {
-    suspend fun getNearbyMonitoringStation(latitude: Double, longitude: Double){
+    suspend fun getNearbyMonitoringStation(latitude: Double, longitude: Double):MonitoringStation? {
         Log.d(TAG, "getNearbyMonitoringStation: $latitude\n$longitude")
 
         val tmCoordinates = kakaoLocalApiService
@@ -21,18 +21,18 @@ object Repository {
             .body()
             ?.documents
             ?.firstOrNull()
-        //여기서 문제가 있음
+        //TODO 여기서 문제가 있음
         val tmX = tmCoordinates?.x
         val tmY = tmCoordinates?.y
-        Log.d(TAG, "tmx : $tmX")
+        //Log.d(TAG, "tmx : $tmX // $tmY")
 
-//        return airKoreaApiService
-//            .getNearbyMonitoringStation(tmX!!, tmY!!)
-//            .body() //retrofit 응답 body
-//            ?.response
-//            ?.body //응답 body 내부에 있는 body
-//            ?.monitoringStations
-//            ?.minByOrNull { it.tm ?: Double.MAX_VALUE } //선택한 요소 중 가장 작은 값은 반환
+        return airKoreaApiService
+            .getNearbyMonitoringStation(tmX!!, tmY!!)
+            .body() //retrofit 응답 body
+            ?.response
+            ?.body //응답 body 내부에 있는 body
+            ?.monitoringStations
+            ?.minByOrNull { it.tm ?: Double.MAX_VALUE } //선택한 요소 중 가장 작은 값은 반환
     }
 
     private val kakaoLocalApiService: KakaoLocalApiService by lazy {
