@@ -1,8 +1,6 @@
 package com.june.myapplication.data
 
-import android.util.Log
 import com.june.myapplication.BuildConfig
-import com.june.myapplication.MainActivity.Companion.TAG
 import com.june.myapplication.data.services.AirKoreaApiService
 import com.june.myapplication.data.services.KakaoLocalApiService
 import fastcampus.aop.part4.chapter06.data.models.monitoringstation.MonitoringStation
@@ -13,9 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
 object Repository {
-    /**
-     *
-     */
+    //
     suspend fun getNearbyMonitoringStation(latitude: Double, longitude: Double):MonitoringStation? {
         val tmCoordinates = kakaoLocalApiService
             .getTmCoordinates(longitude, latitude)
@@ -34,9 +30,7 @@ object Repository {
             ?.minByOrNull { it.tm ?: Double.MAX_VALUE } //선택한 요소 중 가장 작은 값은 반환
     }
 
-    /**
-     *
-     */
+    //
     private val kakaoLocalApiService: KakaoLocalApiService by lazy {
         Retrofit.Builder()
             .baseUrl(Url.KAKAO_API_BASE_URL)
@@ -46,9 +40,7 @@ object Repository {
             .create()
     }
 
-    /**
-     *
-     */
+    //
     private val airKoreaApiService: AirKoreaApiService by lazy {
         Retrofit.Builder()
             .baseUrl(Url.AIR_KOREA_API_BASE_URL)
@@ -59,17 +51,19 @@ object Repository {
     }
 
     /**
-     *
+     * okHttp
+     * -REST API, HTTP 통신을 간편하게 구현할 수 있또록 다양한 기능(REST 호출 전송, HTTP 기반의 요청, 응답)을 제공해주는 자바 라이브러리
+     * -Retrofit 라이브러리의 베이스가 됨
      */
+
+    //
     private fun buildHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(
-                /**
-                 * 레벨(level)에 따라 보이는 정보가 달라짐
-                 * 개발 시(디버깅 시)는 로그가 다 보이는 게 좋으나 배포 시에는 로그가 다 보이면 보안 이슈가 발생할 수 있음
-                 * HttpLoggingInterceptor.Level.BODY :
-                 * HttpLoggingInterceptor.Level.NONE :
-                 */
+                /*레벨(level)에 따라 보이는 정보가 달라짐
+                  개발 시(디버깅 시)는 로그가 다 보이는 게 좋으나 배포 시에는 로그가 다 보이면 보안 이슈가 발생할 수 있음
+                  HttpLoggingInterceptor.Level.BODY :
+                  HttpLoggingInterceptor.Level.NONE : */
                 HttpLoggingInterceptor().apply {
 
                     level = if (BuildConfig.DEBUG) {
