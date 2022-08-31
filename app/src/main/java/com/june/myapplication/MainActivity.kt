@@ -16,7 +16,6 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
-import com.june.myapplication.data.Repository
 import com.june.myapplication.databinding.ActivityMainBinding
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
@@ -77,7 +76,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         //AOS R 미만 디바이스 권한 요청
-        } else {
+        }
+        else {
             //위치 정보 권한이 없는 경우
             if (!isLocationPermissionGranted) {
                 finish()
@@ -129,10 +129,6 @@ class MainActivity : AppCompatActivity() {
     }
 //[END Permission]
 
-
-
-//TODO 스터디
-
 //[START Location]
     /**
      * FusedLocationProviderClient
@@ -168,7 +164,10 @@ class MainActivity : AppCompatActivity() {
             .addOnSuccessListener { location ->
                 scope.launch {
                     val monitoringStation = Repository.getNearbyMonitoringStation(location.latitude, location.longitude)
-                    Log.d(TAG, "monitoringStation: ${monitoringStation}")
+                    val measuredValue = Repository.getLatestAirQualityData((monitoringStation!!.stationName!!))
+
+
+                    Log.d(TAG, "measuredValue $measuredValue")
                 }
             }
             //사용자의 위저 데이터를 가져오지 못한 경우

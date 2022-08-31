@@ -1,4 +1,4 @@
-package com.june.myapplication.data.services
+package com.june.myapplication.services
 
 import com.june.myapplication.BuildConfig
 import fastcampus.aop.part4.chapter06.data.models.airquality.AirQualityResponse

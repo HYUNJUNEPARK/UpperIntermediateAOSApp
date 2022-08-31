@@ -1,7 +1,7 @@
-package com.june.myapplication.data.services
+package com.june.myapplication.services
 
 import com.june.myapplication.BuildConfig
-import com.june.myapplication.data.models.tmcoordinates.TmCoordinatesResponse
+import com.june.myapplication.models.tmcoordinates.TmCoordinatesResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers

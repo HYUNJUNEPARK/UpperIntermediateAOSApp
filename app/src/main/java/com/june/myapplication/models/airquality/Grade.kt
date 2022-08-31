@@ -9,7 +9,6 @@ enum class Grade(
   val emoji: String,
   @ColorRes val colorResId: Int
 ) {
-
   @SerializedName("1")
   GOOD("좋음", "😆", R.color.blue),
 

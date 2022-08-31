@@ -1,4 +1,4 @@
-package com.june.myapplication.data.models.tmcoordinates
+package com.june.myapplication.models.tmcoordinates
 
 
 import com.google.gson.annotations.SerializedName

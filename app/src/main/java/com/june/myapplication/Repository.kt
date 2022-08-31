@@ -1,8 +1,8 @@
-package com.june.myapplication.data
+package com.june.myapplication
 
-import com.june.myapplication.BuildConfig
-import com.june.myapplication.data.services.AirKoreaApiService
-import com.june.myapplication.data.services.KakaoLocalApiService
+import com.june.myapplication.services.AirKoreaApiService
+import com.june.myapplication.services.KakaoLocalApiService
+import fastcampus.aop.part4.chapter06.data.models.airquality.MeasuredValue
 import fastcampus.aop.part4.chapter06.data.models.monitoringstation.MonitoringStation
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -29,6 +29,16 @@ object Repository {
             ?.monitoringStations
             ?.minByOrNull { it.tm ?: Double.MAX_VALUE } //선택한 요소 중 가장 작은 값은 반환
     }
+
+    //
+    suspend fun getLatestAirQualityData(stationName: String): MeasuredValue? =
+        airKoreaApiService
+            .getRealtimeAirQualities(stationName)
+            .body()
+            ?.response
+            ?.body
+            ?.measuredValues
+            ?.firstOrNull() //가장 첫번째 데이터를 가져옴. 데이터 없으면 null 반환
 
     //
     private val kakaoLocalApiService: KakaoLocalApiService by lazy {

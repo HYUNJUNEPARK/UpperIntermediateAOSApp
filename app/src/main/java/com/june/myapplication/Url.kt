@@ -1,4 +1,4 @@
-package com.june.myapplication.data
+package com.june.myapplication
 
 object Url {
     const val KAKAO_API_BASE_URL = "https://dapi.kakao.com/"
