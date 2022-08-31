@@ -62,7 +62,7 @@ object Repository {
 
     /**
      * okHttp
-     * -REST API, HTTP 통신을 간편하게 구현할 수 있또록 다양한 기능(REST 호출 전송, HTTP 기반의 요청, 응답)을 제공해주는 자바 라이브러리
+     * -REST API, HTTP 통신을 간편하게 구현할 수 있도록 다양한 기능(REST 호출 전송, HTTP 기반의 요청, 응답)을 제공해주는 자바 라이브러리
      * -Retrofit 라이브러리의 베이스가 됨
      */
 
@@ -75,7 +75,6 @@ object Repository {
                   HttpLoggingInterceptor.Level.BODY :
                   HttpLoggingInterceptor.Level.NONE : */
                 HttpLoggingInterceptor().apply {
-
                     level = if (BuildConfig.DEBUG) {
                         HttpLoggingInterceptor.Level.BODY
                     }
