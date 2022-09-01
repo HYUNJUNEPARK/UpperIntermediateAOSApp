@@ -17,6 +17,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.june.myapplication.databinding.ActivityMainBinding
+import com.june.myapplication.retrofit.Repository
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
