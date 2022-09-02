@@ -7,8 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
@@ -36,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        requestLocationPermissions()
+        Permission.requestLocationPermissions(this)
     }
 
     override fun onDestroy() {
@@ -45,19 +43,18 @@ class MainActivity : AppCompatActivity() {
         scope.cancel()
     }
 
-//[START Permission]
-    //TODO 앱 최초 실행 시 권한을 '허용 안함' 두 번 실행하면 다음 부터는 권한 메시지를 띄우지 않고 앱이 종료되는 문제가 있음
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         /* ACCESS_COARSE_LOCATION : 도시 Block 단위의 정밀도의 위치 정보를 얻을 수 있음
-           ACCESS_FINE_LOCATION : ACCESS_COARSE_LOCATION 보다 더 정밀한 위치 정보를 얻을 수 있음 */
+           ACCESS_FINE_LOCATION   : ACCESS_COARSE_LOCATION 보다 더 정밀한 위치 정보를 얻을 수 있음 */
         val isLocationPermissionGranted: Boolean =
             ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
             ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
-        /* shouldShowBackgroundPermissionRationale(permission: String)
-           사용자가 권한을 처음 본 경우, 다시 묻지 않음을 선택한 경우, 권한을 허용한 경우 false 반환
-           사용자가 이전에 권한 요청을 거부한 경우 true 를 반환
-           앱을 사용하려면 권한이 필요함을 사용자에게 알려주는 안내를 추가함 */
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             //위치 정보 권한이 없는 경우
             if (!isLocationPermissionGranted) {
@@ -66,13 +63,21 @@ class MainActivity : AppCompatActivity() {
             //위지 정보 권한이 있는 경우
             else {
                 val isBackgroundLocationPermissionGranted: Boolean =
-                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
+                    ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                    ) == PackageManager.PERMISSION_GRANTED
+
+                /* shouldShowBackgroundPermissionRationale(permission: String)
+                   사용자가 권한을 처음 본 경우, 다시 묻지 않음을 선택한 경우, 권한을 허용한 경우 false 반환
+                   사용자가 이전에 권한 요청을 거부한 경우 true 를 반환
+                   앱을 사용하려면 권한이 필요함을 사용자에게 알려주는 안내를 추가함 */
                 val shouldShowBackgroundPermissionRationale: Boolean =
                     shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
 
                 //사용자가 이전에 권한을 거부한 경우
                 if (!isBackgroundLocationPermissionGranted && shouldShowBackgroundPermissionRationale) {
-                    showBackgroundLocationPermissionRationaleDialog()
+                    Permission.showBackgroundLocationPermissionRationaleDialog(this, fetchAirQualityData())
                 }
                 //권한이 있는 경우
                 else {
@@ -93,47 +98,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun requestLocationPermissions() {
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ),
-            REQUEST_ACCESS_LOCATION_PERMISSIONS
-        )
-    }
 
-    //앱을 사용하려면 권한이 필요함을 사용자에게 알려주는 안내
-    @RequiresApi(Build.VERSION_CODES.R)
-    private fun showBackgroundLocationPermissionRationaleDialog() {
-        AlertDialog.Builder(this)
-            .setMessage("홈 위젯을 사용하려면 위치 접근 권한이" +
-                    " ${packageManager.backgroundPermissionOptionLabel} 상태여야 합니다.")
-            .setPositiveButton("설정하기") { dialog, _ ->
-                requestBackgroundLocationPermissions()
-                dialog.dismiss()
-            }
-            .setNegativeButton("그냥두기") { dialog, _ ->
-                fetchAirQualityData()
-                dialog.dismiss()
-            }
-            .show()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.R)
-    private fun requestBackgroundLocationPermissions() {
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION
-            ),
-            REQUEST_BACKGROUND_ACCESS_LOCATION_PERMISSIONS
-        )
-    }
-//[END Permission]
-
-//[START Location]
     /**
      * FusedLocationProviderClient
      * https://developers.google.com/android/reference/com/google/android/gms/location
@@ -167,12 +132,13 @@ class MainActivity : AppCompatActivity() {
             )
             .addOnSuccessListener { location ->
                 scope.launch {
+
+                    Log.d(TAG, "fetchAirQualityData: ${location.latitude}")
                     val monitoringStation =
                         Repository.getNearbyMonitoringStation(location.latitude, location.longitude)
                     val measuredValue =
                         Repository.getLatestAirQualityData((monitoringStation!!.stationName!!))
-
-                    displayAirQualityData(monitoringStation, measuredValue!!)
+                    //displayAirQualityData(monitoringStation, measuredValue!!)
                 }
             }
             //사용자의 위저 데이터를 가져오지 못한 경우
@@ -196,8 +162,8 @@ class MainActivity : AppCompatActivity() {
         binding.measuringStationNameTextView.text = monitoringStation.stationName
         binding.measuringStationAddressTextView.text = "측정소 위치: ${monitoringStation.addr}"
 
-        //어떠한 이슈 grade 파싱이 안된다면 null 이기 떄문에 이를 unknown으로 변환하는 작업
-        //TODO 33:16
+        //TODO 33:16'
+        //어떠한 이슈 grade 파싱이 안된다면 null 이기 떄문에 이를 unknown 으로 변환하는 작업
         (measuredValue.khaiGrade ?: Grade.UNKNOWN).let { grade ->
             binding.root.setBackgroundResource(grade.colorResId)
             binding.totalGradeLabelTextView.text = grade.label
@@ -235,13 +201,10 @@ class MainActivity : AppCompatActivity() {
 //            }
         }
     }
-
 //[END Location]
 
 //Constant
     companion object {
-        const val REQUEST_ACCESS_LOCATION_PERMISSIONS = 100
-        const val REQUEST_BACKGROUND_ACCESS_LOCATION_PERMISSIONS = 101
         const val TAG = "testLog"
     }
 }
