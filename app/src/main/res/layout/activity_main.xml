@@ -46,7 +46,7 @@
                     android:layout_height="match_parent"
                     android:alpha="0"
                     tools:alpha="1"
-                    tools:background="@color/gray"
+                    tools:background="@color/blue"
                     tools:context=".MainActivity">
 
                     <TextView

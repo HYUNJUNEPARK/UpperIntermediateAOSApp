@@ -18,6 +18,9 @@ import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.june.myapplication.databinding.ActivityMainBinding
 import com.june.myapplication.retrofit.Repository
+import fastcampus.aop.part4.chapter06.data.models.airquality.Grade
+import fastcampus.aop.part4.chapter06.data.models.airquality.MeasuredValue
+import fastcampus.aop.part4.chapter06.data.models.monitoringstation.MonitoringStation
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
@@ -164,11 +167,12 @@ class MainActivity : AppCompatActivity() {
             )
             .addOnSuccessListener { location ->
                 scope.launch {
-                    val monitoringStation = Repository.getNearbyMonitoringStation(location.latitude, location.longitude)
-                    val measuredValue = Repository.getLatestAirQualityData((monitoringStation!!.stationName!!))
+                    val monitoringStation =
+                        Repository.getNearbyMonitoringStation(location.latitude, location.longitude)
+                    val measuredValue =
+                        Repository.getLatestAirQualityData((monitoringStation!!.stationName!!))
 
-
-                    Log.d(TAG, "measuredValue $measuredValue")
+                    displayAirQualityData(monitoringStation, measuredValue!!)
                 }
             }
             //사용자의 위저 데이터를 가져오지 못한 경우
@@ -176,6 +180,62 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Exception : $e", Toast.LENGTH_SHORT).show()
             }
     }
+
+    /**
+     *
+     */
+    @SuppressLint("SetTextI18n")
+    fun displayAirQualityData(
+        monitoringStation: MonitoringStation,
+        measuredValue: MeasuredValue
+    ) {
+        binding.contentsLayout.animate()
+            .alpha(1F)
+            .start()
+
+        binding.measuringStationNameTextView.text = monitoringStation.stationName
+        binding.measuringStationAddressTextView.text = "측정소 위치: ${monitoringStation.addr}"
+
+        //어떠한 이슈 grade 파싱이 안된다면 null 이기 떄문에 이를 unknown으로 변환하는 작업
+        //TODO 33:16
+        (measuredValue.khaiGrade ?: Grade.UNKNOWN).let { grade ->
+            binding.root.setBackgroundResource(grade.colorResId)
+            binding.totalGradeLabelTextView.text = grade.label
+            binding.totalGradleEmojiTextView.text = grade.emoji
+        }
+
+        with(measuredValue) {
+            binding.fineDustInformationTextView.text =
+                "미세먼지: $pm10Value ㎍/㎥ ${(pm10Grade ?: Grade.UNKNOWN).emoji}"
+            binding.ultraFineDustInformationTextView.text =
+                "초미세먼지: $pm25Value ㎍/㎥ ${(pm25Grade ?: Grade.UNKNOWN).emoji}"
+
+//            with(binding.so2Item) {
+//                labelTextView.text = "아황산가스"
+//                gradeTextView.text = (so2Grade ?: Grade.UNKNOWN).toString()
+//                valueTextView.text = "$so2Value ppm"
+//            }
+//
+//            with(binding.coItem) {
+//                labelTextView.text = "일산화탄소"
+//                gradeTextView.text = (coGrade ?: Grade.UNKNOWN).toString()
+//                valueTextView.text = "$coValue ppm"
+//            }
+//
+//            with(binding.o3Item) {
+//                labelTextView.text = "오존"
+//                gradeTextView.text = (o3Grade ?: Grade.UNKNOWN).toString()
+//                valueTextView.text = "$o3Value ppm"
+//            }
+//
+//            with(binding.no2Item) {
+//                labelTextView.text = "이산화질소"
+//                gradeTextView.text = (no2Grade ?: Grade.UNKNOWN).toString()
+//                valueTextView.text = "$no2Value ppm"
+//            }
+        }
+    }
+
 //[END Location]
 
 //Constant

@@ -18,6 +18,14 @@ Android(경도/위도) -> Kakao developers(TM 좌표 변환) -> 공공데이터�
 4. 서버에서 오는 response 복사 후 필드에 붙여넣기</br>
 5. Advanced -> [Property] val, Nullable 세팅으로 되어 있는지 확인 // [Annotation] Gson 확인</br>
 
+
+
+
+drawableStartCompat : 백터 호환
+app:autoSizeTextType
+app:autoizeMaxTextSize
+app:autoSizeMinTextSize
+
 <br></br>
 <br></br>
 
