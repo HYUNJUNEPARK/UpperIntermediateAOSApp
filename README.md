@@ -19,12 +19,13 @@ Android(경도/위도) -> Kakao developers(TM 좌표 변환) -> 공공데이터�
 5. Advanced -> [Property] val, Nullable 세팅으로 되어 있는지 확인 // [Annotation] Gson 확인</br>
 
 
+**텍스트뷰에 이미지 포함하기**</br>
+텍스트와 이미지가 함께 구성하는 경우가 발생하는데 별도의 ImageView 를 구성하지 않고 TextView 의 속성을 이용하면 쉽게 처리할 수 있음</br>
 
-
-drawableStartCompat : 백터 호환
-app:autoSizeTextType
-app:autoizeMaxTextSize
-app:autoSizeMinTextSize
+root layout 태그에 `xmlns:app="http://schemas.android.com/apk/res-auto"` 를 추가</br>
+`app:drawableEndCompat` 은 이미지를 오른쪽에 배치</br>
+`app:drawableStartCompat` 은 이미지를 왼쪽에 배치</br>
+`app:drawablePadding` 은 텍스트와 이미지 사이 간격을 조절</br>
 
 <br></br>
 <br></br>

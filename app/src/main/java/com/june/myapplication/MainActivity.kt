@@ -182,7 +182,7 @@ class MainActivity : AppCompatActivity() {
         contentsLayout.animate()
             .alpha(1F)
             .start()
-        dateTimeTextView.text = "측정 시간 : ${measuredValue.dataTime?: "-"}"
+        dateTimeTextView.text = "측정 시간 : ${measuredValue.dataTime ?: "-"}"
         measuringStationNameTextView.text = monitoringStation.stationName
         measuringStationAddressTextView.text = "측정소 위치: ${monitoringStation.addr}"
 
