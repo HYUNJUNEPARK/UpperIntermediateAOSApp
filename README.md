@@ -7,19 +7,19 @@
 
 dataBinding / Retrofit2 / coroutine / FusedLocationProviderClient / App Widgets
 
-**API 호출 구조**</br>
+**1. API 호출 구조**</br>
 Android(경도/위도) -> Kakao developers(TM 좌표 변환) -> 공공데이터포털(측정소명) -> 공공데이터포털(대기오염정보) -> Android</br>
 
 
-**JSON -> Kotlin Data Class**</br>
-1. plugins 에서 JSON to Kotlin Class 설치</br>
-2. 코틀린 데이터 클래스를 생성하기 원하는 패키지 우클릭</br>
-3. New -> Kotlin data class File from Json</br>
-4. 서버에서 오는 response 복사 후 필드에 붙여넣기</br>
-5. Advanced -> [Property] val, Nullable 세팅으로 되어 있는지 확인 // [Annotation] Gson 확인</br>
+**2. JSON -> Kotlin Data Class**</br>
+plugins 에서 JSON to Kotlin Class 설치</br>
+코틀린 데이터 클래스를 생성하기 원하는 패키지 우클릭</br>
+New -> Kotlin data class File from Json</br>
+서버에서 오는 response 복사 후 필드에 붙여넣기</br>
+Advanced -> [Property] val, Nullable 세팅으로 되어 있는지 확인 // [Annotation] Gson 확인</br>
 
 
-**텍스트뷰에 이미지 포함하기**</br>
+**3. 텍스트뷰에 이미지 포함하기**</br>
 텍스트와 이미지가 함께 구성하는 경우가 발생하는데 별도의 ImageView 를 구성하지 않고 TextView 의 속성을 이용하면 쉽게 처리할 수 있음</br>
 
 root layout 태그에 `xmlns:app="http://schemas.android.com/apk/res-auto"` 를 추가</br>
