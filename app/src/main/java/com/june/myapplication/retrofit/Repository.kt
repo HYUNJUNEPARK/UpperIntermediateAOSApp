@@ -2,10 +2,10 @@ package com.june.myapplication.retrofit
 
 import com.june.myapplication.BuildConfig
 import com.june.myapplication.Url
+import com.june.myapplication.models.airquality.MeasuredValue
+import com.june.myapplication.models.monitoringstation.MonitoringStation
 import com.june.myapplication.services.AirKoreaApiService
 import com.june.myapplication.services.KakaoLocalApiService
-import fastcampus.aop.part4.chapter06.data.models.airquality.MeasuredValue
-import fastcampus.aop.part4.chapter06.data.models.monitoringstation.MonitoringStation
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -14,7 +14,6 @@ import retrofit2.create
 
 object Repository {
     /**
-     * getNearbyMonitoringStation
      * 사용자 위치에서 가장 가까운 측정소 데이터를 반환
      *
      * 사용자 위치 데이터(WGS84) -> 카카오 좌표 변환 API (WGS84 -> TM)
@@ -45,8 +44,16 @@ object Repository {
     }
 
     /**
-     * getLatestAirQualityData
      * 측정소명을 파라미터로 받아 해당 측정소에서 측정한 가장 최신의 대기질 데이터를 받음
+     *
+     * 측정 시간에 따라서 khaiValue, khaiGrade 가 없는 item 이 있을 수 있음
+     *
+     * Sol1) fetchAirQualityData() 에서 처리
+     * List<MeasuredValue> 를 반환한 뒤, fetchAirQualityData() 에서 for 문으로 리스트 데이터를 꺼내면서
+     * khaiValue 가 null 이 아닌 item 을 반환
+     *
+     * Sol2) getLatestAirQualityData() 에서 바로 처리
+     * List<MeasuredValue> 에서 khaiGrade 가 null 이 아닌 가장 최신 item 하나만 반환
      *
      * @param stationName 사용자와 가장 가까운 측정소명
      * @return MeasuredValue 측정값(co, o3, no2 농도 등 각종 수치)
@@ -57,8 +64,9 @@ object Repository {
             .body()
             ?.response
             ?.body
-            ?.measuredValues
-            ?.firstOrNull() //가장 첫번째 데이터를 가져옴. 데이터 없으면 null 반환
+            ?.measuredValues?.firstOrNull { measuredValue ->
+                measuredValue.khaiGrade != null
+            }
 
     private val kakaoLocalApiService: KakaoLocalApiService by lazy {
         Retrofit.Builder()
@@ -79,7 +87,7 @@ object Repository {
     }
 
     /**
-     * buildHttpClient
+     * okHttpClient 빌더
      *
      * @return OkHttpClient
      *

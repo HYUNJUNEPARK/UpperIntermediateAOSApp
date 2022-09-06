@@ -32,10 +32,7 @@ object Permission {
      * @param operation setNegativeButton{} 에서 실행 시킬 함수
      */
     @RequiresApi(Build.VERSION_CODES.R)
-    fun showBackgroundLocationPermissionRationaleDialog(
-        context: Context,
-        operation: Unit
-    ) {
+    fun showBackgroundLocationPermissionRationaleDialog(context: Context, operation: Unit) {
         AlertDialog.Builder(context)
             .setMessage("홈 위젯을 사용하려면 위치 접근 권한이" +
                     " ${context.packageManager.backgroundPermissionOptionLabel} 상태여야 합니다.")

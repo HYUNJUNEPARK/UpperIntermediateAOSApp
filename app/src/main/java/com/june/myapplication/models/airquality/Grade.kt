@@ -1,4 +1,4 @@
-package fastcampus.aop.part4.chapter06.data.models.airquality
+package com.june.myapplication.models.airquality
 
 import androidx.annotation.ColorRes
 import com.google.gson.annotations.SerializedName

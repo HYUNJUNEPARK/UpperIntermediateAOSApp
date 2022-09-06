@@ -1,8 +1,8 @@
 package com.june.myapplication.services
 
 import com.june.myapplication.BuildConfig
-import fastcampus.aop.part4.chapter06.data.models.airquality.AirQualityResponse
-import fastcampus.aop.part4.chapter06.data.models.monitoringstation.MonitoringStationsResponse
+import com.june.myapplication.models.airquality.AirQualityResponse
+import com.june.myapplication.models.monitoringstation.MonitoringStationsResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -23,14 +23,14 @@ interface AirKoreaApiService {
      * 기본 정보
      * Host: http://apis.data.go.kr
      * GET: /B552584/MsrstnInfoInqireSvc/getNearbyMsrstnList
-     *
+     * ```
      * Request_Parameter
      * serviceKey: 서비스키
      * returnType: 데이터 표출방식(옵션 사항, xml, json)
      * tmX: TM 측정방식 X좌표
      * tmY: TM 측정방식 Y좌표
      * ver: 오퍼레이션 버전(옵션 사항, 상세내용은 문서 참고)
-     *
+     * ```
      * GET "http://apis.data.go.kr/B552584/MsrstnInfoInqireSvc/getNearbyMsrstnList
      * ?serviceKey=서비스키&tmX=123&tmY=222&returnType=json"
      */
@@ -49,7 +49,7 @@ interface AirKoreaApiService {
      * 기본 정보
      * Host: http://apis.data.go.kr
      * GET: /B552584/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty
-     *
+     * ```
      * Reqeust_Parameter
      * serviceKey: 서비스키
      * stationName: 측정소명
@@ -58,7 +58,7 @@ interface AirKoreaApiService {
      * numOfRows: 한 페이지 결과 수(옵션 사항)
      * pageNo: 페이지 번호(옵션 사항)
      * ver: 오페레이션 버전(옵션 사항)
-     *
+     * ```
      * GET http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty
      * ?stationName=종로구&dataTerm=month&pageNo=1&numOfRows=100&returnType=xml&serviceKey=서비스키
      */
