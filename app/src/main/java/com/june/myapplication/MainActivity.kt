@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
@@ -31,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.refresh.setOnRefreshListener {
             fetchAirQualityData()
@@ -42,12 +42,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+
         cancellationTokenSource?.cancel()
         scope.cancel()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
         /* ACCESS_COARSE_LOCATION : 도시 Block 단위의 정밀도의 위치 정보를 얻을 수 있음
            ACCESS_FINE_LOCATION   : ACCESS_COARSE_LOCATION 보다 더 정밀한 위치 정보를 얻을 수 있음 */
         val isLocationPermissionGranted: Boolean =
@@ -62,10 +64,7 @@ class MainActivity : AppCompatActivity() {
             //2. 위지 정보 권한이 있는 경우
             else {
                 val isBackgroundLocationPermissionGranted: Boolean =
-                    ActivityCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                    ) == PackageManager.PERMISSION_GRANTED
+                    ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
 
                 /* shouldShowBackgroundPermissionRationale(permission: String)
                    사용자가 권한을 처음 본 경우, 다시 묻지 않음을 선택한 경우, 권한을 허용한 경우 false 반환
@@ -120,7 +119,6 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("MissingPermission")
     private fun fetchAirQualityData() {
         cancellationTokenSource = CancellationTokenSource()
-
         fusedLocationProviderClient
             .getCurrentLocation(
                 Priority.PRIORITY_HIGH_ACCURACY,
@@ -129,16 +127,16 @@ class MainActivity : AppCompatActivity() {
             .addOnSuccessListener { location ->
                 scope.launch {
                     try {
+                        binding.errorDescriptionTextView.visibility = View.GONE
                         val monitoringStation =
                             Repository.getNearbyMonitoringStation(location.latitude, location.longitude)
                         val measuredValue =
                             Repository.getLatestAirQualityData((monitoringStation!!.stationName!!))
                         displayAirQualityData(monitoringStation, measuredValue!!)
-                        binding.errorDescriptionTextView.visibility = View.GONE
                     }
                     catch (e: Exception) {
-                       binding.contentsLayout.alpha = 0F
-                       binding.errorDescriptionTextView.visibility = View.VISIBLE
+                        binding.contentsLayout.alpha = 0F
+                        binding.errorDescriptionTextView.visibility = View.VISIBLE
                     }
                     finally {
                         binding.progressBar.visibility = View.GONE
@@ -149,12 +147,11 @@ class MainActivity : AppCompatActivity() {
             //사용자의 위치 데이터를 가져오지 못한 경우
             .addOnFailureListener { e ->
                 e.printStackTrace()
-                Toast.makeText(this, "Exception : $e", Toast.LENGTH_SHORT).show()
             }
     }
 
     /**
-     * 파라미터로 받은 위치 정보와 대기 정보를 UI 에 세팅
+     * 파라미터로 받은 위치 정보와 대기 정보를 UI 세팅
      *
      * @param monitoringStation 측정소 위치
      * ```
@@ -177,8 +174,7 @@ class MainActivity : AppCompatActivity() {
      * ```
      */
     @SuppressLint("SetTextI18n")
-    fun displayAirQualityData(monitoringStation: MonitoringStation, measuredValue: MeasuredValue) =
-        with(binding) {
+    fun displayAirQualityData(monitoringStation: MonitoringStation, measuredValue: MeasuredValue) = with(binding) {
         contentsLayout.animate()
             .alpha(1F)
             .start()

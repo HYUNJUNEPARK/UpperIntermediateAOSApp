@@ -27,6 +27,23 @@ root layout 태그에 `xmlns:app="http://schemas.android.com/apk/res-auto"` 를 
 `app:drawableStartCompat` 은 이미지를 왼쪽에 배치</br>
 `app:drawablePadding` 은 텍스트와 이미지 사이 간격을 조절</br>
 
+
+**4. 위젯**</br>
+
+AppWidgetProviderInfo</br>
+-앱 위젯에 대한 정보를 담은 XML 파일</br>
+-레이아웃 사이즈, 업데이트 주기 등</br>
+-res 우클릭 -> Android Resource Directory -> Directory name, Resource type 'xml' -> xml resource file 클릭 후 provider info xml 생성</br>
+
+AppWidgetProvider</br>
+-실제로 위젯을 제공하는 클래스</br>
+-앱 갱신, 삭제, 활성화, 비활성화 등 이벤트를 핸들링할 수 있음</br>
+
+Layout</br>
+-remote view</br>
+-사용할 수 있는 컴포넌트의 제약이 있음</br>
+
+
 <br></br>
 <br></br>
 

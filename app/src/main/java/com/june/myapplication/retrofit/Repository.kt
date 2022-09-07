@@ -40,12 +40,11 @@ object Repository {
             ?.monitoringStations
             ?.minByOrNull {
                 it.tm ?: Double.MAX_VALUE
-            } //선택한 요소 중 가장 작은 값을(가장 가까운 측정소 위치정보값을) 반환
+            } //선택한 요소 중 가장 작은 값을(가장 가까운 측정소 위치 정보값) 반환
     }
 
     /**
      * 측정소명을 파라미터로 받아 해당 측정소에서 측정한 가장 최신의 대기질 데이터를 받음
-     *
      * 측정 시간에 따라서 khaiValue, khaiGrade 가 없는 item 이 있을 수 있음
      *
      * Sol1) fetchAirQualityData() 에서 처리
