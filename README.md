@@ -5,7 +5,7 @@
 * <a href = "#ref">참고링크</a>
 ---
 
-dataBinding / Retrofit2 / coroutine / FusedLocationProviderClient / App Widgets
+dataBinding / Retrofit2 / coroutine / FusedLocationProviderClient / AppWidget
 
 **1. API 호출 구조**</br>
 Android(경도/위도) -> Kakao developers(TM 좌표 변환) -> 공공데이터포털(측정소명) -> 공공데이터포털(대기오염정보) -> Android</br>
@@ -43,6 +43,18 @@ Layout</br>
 -remote view</br>
 -사용할 수 있는 컴포넌트의 제약이 있음</br>
 
+위젯 사이즈 추정</br>
+셀 개수  |  사용가능한 크기(dp)</br>
+(열/행) | (minWidth/minHeight)</br>
+================================</br>
+1      |  40   dp</br>
+2      |  110  dp</br>
+3      |  180  dp</br>
+n      |  70*n - 30 dp</br>
+
+프로바이더를 리시버로 AndroidManifest 에 등록하는 작업이 필요함
+
+
 
 <br></br>
 <br></br>
@@ -73,3 +85,5 @@ https://developer.android.com/training/location/permissions</br>
 Google Play services document</br>
 https://developers.google.com/android/reference/packages</br>
 
+AppWidgetProviderInfo</br>
+https://developer.android.com/reference/android/appwidget/AppWidgetProviderInfo</br>
