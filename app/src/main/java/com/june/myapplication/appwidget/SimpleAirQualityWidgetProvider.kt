@@ -32,7 +32,9 @@ BroadcastReceiver : 이벤트(시스템의 특정 상황 ex.부팅) 모델로 �
 class SimpleAirQualityWidgetProvider : AppWidgetProvider() {
 
     /**
-     * TODO 2'44 Lecture
+     * onUpdate() 에서 Service 를 실행시켜야 작업이 중지되지 않음
+     *
+     *
      */
     override fun onUpdate(context: Context?, appWidgetManager: AppWidgetManager?, appWidgetIds: IntArray?) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
@@ -43,13 +45,18 @@ class SimpleAirQualityWidgetProvider : AppWidgetProvider() {
         )
     }
 
+    /**
+     * 위젯을 업데이트 하는 서비스
+     *
+     * TODO LifeCycleService : 코루틴의 일종 ?
+     */
     class UpdateWidgetService : LifecycleService() {
         override fun onCreate() {
             super.onCreate()
 
-            //
             createChannelIfNeeded()
-            //
+
+            //포어그라운드 서비스 실행
             startForeground(
                 NOTIFICATION_ID,
                 createNotification()
@@ -58,36 +65,43 @@ class SimpleAirQualityWidgetProvider : AppWidgetProvider() {
 
         override fun onDestroy() {
             super.onDestroy()
-            stopForeground(true)
+            stopForeground(true) //status bar 에 있는 notification 삭제
         }
 
-        //
+        // 작업이 끝난 뒤에 stopSelf()/stopService() 를 호출해야 statusBar 에서 사라짐
+        /*
+        startForeground() 실행 시 호출됨
+        START_STICKY 가 기본값
+         */
         override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+            //[START LocationServices.~ 코드의 Add permission check 클릭하면 자동 생성]
+            //1. 권한이 없는 경우
             if (ActivityCompat.checkSelfPermission(
                     this,
                     Manifest.permission.ACCESS_BACKGROUND_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                val updateViews =
-                    RemoteViews(packageName, R.layout.widget_simple).apply {
-                        setTextViewText(R.id.resultTextView, "권한 없음")
-                    }
+                val updateViews = RemoteViews(packageName, R.layout.widget_simple).apply {
+                    setTextViewText(R.id.resultTextView, "권한 없음")
+                    setViewVisibility(R.id.labelTextView, View.GONE)
+                    setViewVisibility(R.id.gradeLabelTextView, View.GONE)
+
+                }
                 updateWidget(updateViews)
                 stopSelf()
-
                 return super.onStartCommand(intent, flags, startId)
             }
+            //[END]
 
+            //2. 권한이 있는 경우
+            //데이터를 가져옴(실시간 위치 데이터가 아닌 마지막 위치 데이터)
             LocationServices.getFusedLocationProviderClient(this).lastLocation
                 .addOnSuccessListener { location ->
                     lifecycleScope.launch {
                         try {
-                            val nearbyMonitoringStation =
-                                Repository.getNearbyMonitoringStation(location.latitude, location.longitude)
-                            val measuredValue =
-                                Repository.getLatestAirQualityData(nearbyMonitoringStation!!.stationName!!)
-                            val updateViews =
-                                RemoteViews(packageName, R.layout.widget_simple).apply {
+                            val nearbyMonitoringStation = Repository.getNearbyMonitoringStation(location.latitude, location.longitude)
+                            val measuredValue = Repository.getLatestAirQualityData(nearbyMonitoringStation!!.stationName!!)
+                            val updateViews = RemoteViews(packageName, R.layout.widget_simple).apply {
                                     setViewVisibility(R.id.labelTextView, View.VISIBLE)
                                     setViewVisibility(R.id.gradeLabelTextView, View.VISIBLE)
 
@@ -108,9 +122,8 @@ class SimpleAirQualityWidgetProvider : AppWidgetProvider() {
             return super.onStartCommand(intent, flags, startId)
         }
 
-        /**
-         *
-         */
+
+        //포어그라운드 서비스에서 필요한 채널을 생성
         private fun createChannelIfNeeded() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 (getSystemService(NOTIFICATION_SERVICE) as? NotificationManager)
@@ -133,9 +146,7 @@ class SimpleAirQualityWidgetProvider : AppWidgetProvider() {
                 .setChannelId(WIDGET_REFRESH_CHANNEL_ID)
                 .build()
 
-        /**
-         *
-         */
+        //AppWidgetManager 에 WidgetProvider, RemoteViews 를 업데이트
         private fun updateWidget(updateViews: RemoteViews) {
             val widgetProvider = ComponentName(this, SimpleAirQualityWidgetProvider::class.java)
             AppWidgetManager.getInstance(this).updateAppWidget(widgetProvider, updateViews)

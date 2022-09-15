@@ -87,3 +87,4 @@ https://developers.google.com/android/reference/packages</br>
 
 AppWidgetProviderInfo</br>
 https://developer.android.com/reference/android/appwidget/AppWidgetProviderInfo</br>
+https://developer.android.com/guide/topics/appwidgets?hl=ko</br>

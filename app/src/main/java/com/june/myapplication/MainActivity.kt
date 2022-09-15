@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
             //2. 위지 정보 권한이 있는 경우
             else {
                 val isBackgroundLocationPermissionGranted: Boolean =
-                    ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
+                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
 
                 /* shouldShowBackgroundPermissionRationale(permission: String)
                    사용자가 권한을 처음 본 경우, 다시 묻지 않음을 선택한 경우, 권한을 허용한 경우 false 반환

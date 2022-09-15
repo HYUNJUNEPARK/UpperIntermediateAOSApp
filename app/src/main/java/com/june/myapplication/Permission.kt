@@ -23,6 +23,17 @@ object Permission {
         )
     }
 
+    @RequiresApi(Build.VERSION_CODES.R)
+    private fun requestBackgroundLocationPermissions(context: Context) {
+        ActivityCompat.requestPermissions(
+            context as Activity,
+            arrayOf(
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            ),
+            REQUEST_BACKGROUND_ACCESS_LOCATION_PERMISSIONS
+        )
+    }
+
     /**
      * showBackgroundLocationPermissionRationaleDialog
      *
@@ -45,16 +56,5 @@ object Permission {
                 dialog.dismiss()
             }
             .show()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.R)
-    private fun requestBackgroundLocationPermissions(context: Context) {
-        ActivityCompat.requestPermissions(
-            context as Activity,
-            arrayOf(
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION
-            ),
-            REQUEST_BACKGROUND_ACCESS_LOCATION_PERMISSIONS
-        )
     }
 }
